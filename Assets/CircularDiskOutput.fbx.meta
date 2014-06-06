@@ -28,6 +28,31 @@ ModelImporter:
     100044: StoneDisk_Outer_005
     100046: StoneDisk_Outer_006
     100048: StoneDisk_Outer_007
+    100050: Empty
+    100052: StoneDisk
+    100054: StoneDisk_001
+    100056: StoneDisk_002
+    100058: StoneDisk_003
+    100060: StoneDisk_004
+    100062: StoneDisk_005
+    100064: StoneDisk_006
+    100066: StoneDisk_007
+    100068: StoneDisk_008
+    100070: StoneDisk_009
+    100072: StoneDisk_010
+    100074: StoneDisk_011
+    100076: StoneDisk_012
+    100078: StoneDisk_013
+    100080: StoneDisk_014
+    100082: StoneDisk_015
+    100084: StoneDisk_016
+    100086: StoneDisk_017
+    100088: StoneDisk_018
+    100090: StoneDisk_019
+    100092: StoneDisk_020
+    100094: StoneDisk_021
+    100096: StoneDisk_022
+    100098: StoneDisk_023
     400000: //RootNode
     400002: StoneDisk_Inner
     400004: StoneDisk_Inner_001
@@ -53,6 +78,31 @@ ModelImporter:
     400044: StoneDisk_Outer_005
     400046: StoneDisk_Outer_006
     400048: StoneDisk_Outer_007
+    400050: Empty
+    400052: StoneDisk
+    400054: StoneDisk_001
+    400056: StoneDisk_002
+    400058: StoneDisk_003
+    400060: StoneDisk_004
+    400062: StoneDisk_005
+    400064: StoneDisk_006
+    400066: StoneDisk_007
+    400068: StoneDisk_008
+    400070: StoneDisk_009
+    400072: StoneDisk_010
+    400074: StoneDisk_011
+    400076: StoneDisk_012
+    400078: StoneDisk_013
+    400080: StoneDisk_014
+    400082: StoneDisk_015
+    400084: StoneDisk_016
+    400086: StoneDisk_017
+    400088: StoneDisk_018
+    400090: StoneDisk_019
+    400092: StoneDisk_020
+    400094: StoneDisk_021
+    400096: StoneDisk_022
+    400098: StoneDisk_023
     2300000: StoneDisk_Inner
     2300002: StoneDisk_Inner_001
     2300004: StoneDisk_Inner_002
@@ -77,6 +127,31 @@ ModelImporter:
     2300042: StoneDisk_Outer_005
     2300044: StoneDisk_Outer_006
     2300046: StoneDisk_Outer_007
+    2300048: StoneDisk
+    2300050: //RootNode
+    2300052: StoneDisk_001
+    2300054: StoneDisk_002
+    2300056: StoneDisk_003
+    2300058: StoneDisk_004
+    2300060: StoneDisk_005
+    2300062: StoneDisk_006
+    2300064: StoneDisk_007
+    2300066: StoneDisk_008
+    2300068: StoneDisk_009
+    2300070: StoneDisk_010
+    2300072: StoneDisk_011
+    2300074: StoneDisk_012
+    2300076: StoneDisk_013
+    2300078: StoneDisk_014
+    2300080: StoneDisk_015
+    2300082: StoneDisk_016
+    2300084: StoneDisk_017
+    2300086: StoneDisk_018
+    2300088: StoneDisk_019
+    2300090: StoneDisk_020
+    2300092: StoneDisk_021
+    2300094: StoneDisk_022
+    2300096: StoneDisk_023
     3300000: StoneDisk_Inner
     3300002: StoneDisk_Inner_001
     3300004: StoneDisk_Inner_002
@@ -101,6 +176,31 @@ ModelImporter:
     3300042: StoneDisk_Outer_005
     3300044: StoneDisk_Outer_006
     3300046: StoneDisk_Outer_007
+    3300048: StoneDisk
+    3300050: //RootNode
+    3300052: StoneDisk_001
+    3300054: StoneDisk_002
+    3300056: StoneDisk_003
+    3300058: StoneDisk_004
+    3300060: StoneDisk_005
+    3300062: StoneDisk_006
+    3300064: StoneDisk_007
+    3300066: StoneDisk_008
+    3300068: StoneDisk_009
+    3300070: StoneDisk_010
+    3300072: StoneDisk_011
+    3300074: StoneDisk_012
+    3300076: StoneDisk_013
+    3300078: StoneDisk_014
+    3300080: StoneDisk_015
+    3300082: StoneDisk_016
+    3300084: StoneDisk_017
+    3300086: StoneDisk_018
+    3300088: StoneDisk_019
+    3300090: StoneDisk_020
+    3300092: StoneDisk_021
+    3300094: StoneDisk_022
+    3300096: StoneDisk_023
     4300000: StoneDisk_Outer_007
     4300002: StoneDisk_Outer_006
     4300004: StoneDisk_Outer_005
@@ -125,6 +225,30 @@ ModelImporter:
     4300042: StoneDisk_Inner
     4300044: StoneDisk_Mid
     4300046: StoneDisk_Outer
+    4300048: StoneDisk
+    4300050: StoneDisk_023
+    4300052: StoneDisk_022
+    4300054: StoneDisk_021
+    4300056: StoneDisk_020
+    4300058: StoneDisk_019
+    4300060: StoneDisk_018
+    4300062: StoneDisk_017
+    4300064: StoneDisk_016
+    4300066: StoneDisk_015
+    4300068: StoneDisk_014
+    4300070: StoneDisk_013
+    4300072: StoneDisk_012
+    4300074: StoneDisk_011
+    4300076: StoneDisk_010
+    4300078: StoneDisk_009
+    4300080: StoneDisk_008
+    4300082: StoneDisk_007
+    4300084: StoneDisk_006
+    4300086: StoneDisk_005
+    4300088: StoneDisk_004
+    4300090: StoneDisk_003
+    4300092: StoneDisk_002
+    4300094: StoneDisk_001
     7400000: Default Take
     9500000: //RootNode
   materials:
