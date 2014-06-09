@@ -19,6 +19,9 @@ public class operation : MonoBehaviour {
 
 public class Disk{
 
+	//temporary
+	DiskSegment[] mSegments;
+
 
 }
 
@@ -32,6 +35,11 @@ public class DiskSegment {
 		if (aTrans != null)
 			mTransform = aTrans;
 		else
-			Debug.LogException(
+			Debug.Log ("null diskSegment Trans init");
+
+		if (aCoor != null)
+			mCoordinate = aCoor;
+		else
+			Debug.Log ("null diskSegment Coor init");
 	}
 }
