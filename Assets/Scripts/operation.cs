@@ -21,7 +21,23 @@ public class Disk{
 
 	//temporary
 	DiskSegment[] mSegments;
+	const int thetaModolus = 8; //this is not flexible
+	const int radiusModolus = 3; //this is not flexible
 
+	public Disk (Transform[] segments){//
+
+		for (int i = 0; i < segments.Length; i++) {
+
+			for (int r = 1 ; r <= radiusModolus; r++){
+
+				for (int theta = 1; theta <= thetaModolus; theta++)
+				mSegments[i] = new DiskSegment(segments[i],new Vector2(r,theta));
+
+			}
+
+				}
+
+		}
 
 }
 

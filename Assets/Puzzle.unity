@@ -85,6 +85,7 @@ GameObject:
   - 33: {fileID: 116144166}
   - 23: {fileID: 116144165}
   - 114: {fileID: 116144167}
+  - 64: {fileID: 116144168}
   m_Layer: 8
   m_Name: StoneDisk_011
   m_TagString: Untagged
@@ -180,6 +181,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &116144168
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 116144163}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300074, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &200384282
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +205,7 @@ GameObject:
   - 33: {fileID: 200384285}
   - 23: {fileID: 200384284}
   - 114: {fileID: 200384286}
+  - 64: {fileID: 200384287}
   m_Layer: 8
   m_Name: StoneDisk_005
   m_TagString: Untagged
@@ -286,6 +301,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &200384287
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 200384282}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300086, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &239630705
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +411,7 @@ GameObject:
   - 33: {fileID: 267494955}
   - 23: {fileID: 267494954}
   - 114: {fileID: 267494956}
+  - 64: {fileID: 267494957}
   m_Layer: 8
   m_Name: StoneDisk_019
   m_TagString: Untagged
@@ -478,6 +507,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &267494957
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 267494952}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300058, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &299766986
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,6 +531,7 @@ GameObject:
   - 33: {fileID: 299766989}
   - 23: {fileID: 299766988}
   - 114: {fileID: 299766990}
+  - 64: {fileID: 299766991}
   m_Layer: 8
   m_Name: StoneDisk_009
   m_TagString: Untagged
@@ -584,6 +627,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &299766991
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 299766986}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300078, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &374358180
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,6 +651,7 @@ GameObject:
   - 33: {fileID: 374358183}
   - 23: {fileID: 374358182}
   - 114: {fileID: 374358184}
+  - 64: {fileID: 374358185}
   m_Layer: 8
   m_Name: StoneDisk_022
   m_TagString: Untagged
@@ -690,6 +747,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &374358185
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 374358180}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300052, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &498619878
 GameObject:
   m_ObjectHideFlags: 0
@@ -701,6 +771,7 @@ GameObject:
   - 33: {fileID: 498619881}
   - 23: {fileID: 498619880}
   - 114: {fileID: 498619882}
+  - 64: {fileID: 498619883}
   m_Layer: 8
   m_Name: StoneDisk_021
   m_TagString: Untagged
@@ -796,6 +867,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &498619883
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 498619878}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300054, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &521553749
 GameObject:
   m_ObjectHideFlags: 0
@@ -807,6 +891,7 @@ GameObject:
   - 33: {fileID: 521553752}
   - 23: {fileID: 521553751}
   - 114: {fileID: 521553753}
+  - 64: {fileID: 521553754}
   m_Layer: 8
   m_Name: StoneDisk_015
   m_TagString: Untagged
@@ -902,6 +987,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &521553754
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 521553749}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300066, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &643511081
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,6 +1131,7 @@ GameObject:
   - 33: {fileID: 644898273}
   - 23: {fileID: 644898272}
   - 114: {fileID: 644898274}
+  - 64: {fileID: 644898275}
   m_Layer: 8
   m_Name: StoneDisk_017
   m_TagString: Untagged
@@ -1128,6 +1227,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &644898275
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 644898270}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300062, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &659551924
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,6 +1313,7 @@ GameObject:
   - 33: {fileID: 662575362}
   - 23: {fileID: 662575361}
   - 114: {fileID: 662575363}
+  - 64: {fileID: 662575364}
   m_Layer: 8
   m_Name: StoneDisk_002
   m_TagString: Untagged
@@ -1296,6 +1409,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &662575364
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 662575359}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300092, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &712182925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,6 +1433,7 @@ GameObject:
   - 33: {fileID: 712182928}
   - 23: {fileID: 712182927}
   - 114: {fileID: 712182929}
+  - 64: {fileID: 712182930}
   m_Layer: 8
   m_Name: StoneDisk_018
   m_TagString: Untagged
@@ -1402,6 +1529,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &712182930
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 712182925}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300060, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1001 &737227396
 Prefab:
   m_ObjectHideFlags: 0
@@ -1453,6 +1593,7 @@ GameObject:
   - 33: {fileID: 746665178}
   - 23: {fileID: 746665177}
   - 114: {fileID: 746665179}
+  - 64: {fileID: 746665180}
   m_Layer: 8
   m_Name: StoneDisk_006
   m_TagString: Untagged
@@ -1548,6 +1689,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &746665180
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 746665175}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300084, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &854225181
 GameObject:
   m_ObjectHideFlags: 0
@@ -1559,6 +1713,7 @@ GameObject:
   - 33: {fileID: 854225184}
   - 23: {fileID: 854225183}
   - 114: {fileID: 854225185}
+  - 64: {fileID: 854225186}
   m_Layer: 8
   m_Name: StoneDisk_023
   m_TagString: Untagged
@@ -1654,6 +1809,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &854225186
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 854225181}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300050, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &865016896
 GameObject:
   m_ObjectHideFlags: 0
@@ -1665,6 +1833,7 @@ GameObject:
   - 33: {fileID: 865016899}
   - 23: {fileID: 865016898}
   - 114: {fileID: 865016900}
+  - 64: {fileID: 865016901}
   m_Layer: 8
   m_Name: StoneDisk_004
   m_TagString: Untagged
@@ -1760,6 +1929,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &865016901
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 865016896}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300088, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &876741820
 GameObject:
   m_ObjectHideFlags: 0
@@ -1771,6 +1953,7 @@ GameObject:
   - 33: {fileID: 876741823}
   - 23: {fileID: 876741822}
   - 114: {fileID: 876741824}
+  - 64: {fileID: 876741825}
   m_Layer: 8
   m_Name: StoneDisk_008
   m_TagString: Untagged
@@ -1866,6 +2049,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &876741825
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 876741820}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300080, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &927724035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1877,6 +2073,7 @@ GameObject:
   - 33: {fileID: 927724038}
   - 23: {fileID: 927724037}
   - 114: {fileID: 927724039}
+  - 64: {fileID: 927724040}
   m_Layer: 8
   m_Name: StoneDisk_016
   m_TagString: Untagged
@@ -1972,6 +2169,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &927724040
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 927724035}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300064, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1001 &968802091
 Prefab:
   m_ObjectHideFlags: 0
@@ -2107,7 +2317,8 @@ Prefab:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 9500000, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
   m_RootGameObject: {fileID: 1542274593}
   m_IsPrefabParent: 0
@@ -2123,6 +2334,7 @@ GameObject:
   - 33: {fileID: 999269262}
   - 23: {fileID: 999269261}
   - 114: {fileID: 999269263}
+  - 64: {fileID: 999269264}
   m_Layer: 8
   m_Name: StoneDisk_014
   m_TagString: Untagged
@@ -2218,6 +2430,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &999269264
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 999269259}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300068, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &1003866095
 GameObject:
   m_ObjectHideFlags: 0
@@ -2229,6 +2454,7 @@ GameObject:
   - 33: {fileID: 1003866098}
   - 23: {fileID: 1003866097}
   - 114: {fileID: 1003866099}
+  - 64: {fileID: 1003866100}
   m_Layer: 8
   m_Name: StoneDisk_013
   m_TagString: Untagged
@@ -2324,6 +2550,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &1003866100
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1003866095}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300070, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &1257731598
 GameObject:
   m_ObjectHideFlags: 0
@@ -2352,9 +2591,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mSegments:
-  - {fileID: 643511084}
-  - {fileID: 1504641939}
-  - {fileID: 662575360}
   - {fileID: 2035025437}
   - {fileID: 865016897}
   - {fileID: 200384283}
@@ -2362,6 +2598,7 @@ MonoBehaviour:
   - {fileID: 1404868630}
   - {fileID: 876741821}
   - {fileID: 299766987}
+  - {fileID: 662575360}
   - {fileID: 1804237647}
   - {fileID: 116144164}
   - {fileID: 1619691531}
@@ -2369,6 +2606,7 @@ MonoBehaviour:
   - {fileID: 999269260}
   - {fileID: 521553750}
   - {fileID: 927724036}
+  - {fileID: 1504641939}
   - {fileID: 644898271}
   - {fileID: 712182926}
   - {fileID: 267494953}
@@ -2376,6 +2614,7 @@ MonoBehaviour:
   - {fileID: 498619879}
   - {fileID: 374358181}
   - {fileID: 854225182}
+  - {fileID: 643511084}
 --- !u!4 &1257731600
 Transform:
   m_ObjectHideFlags: 0
@@ -2398,6 +2637,7 @@ GameObject:
   - 33: {fileID: 1404868632}
   - 23: {fileID: 1404868631}
   - 114: {fileID: 1404868633}
+  - 64: {fileID: 1404868634}
   m_Layer: 8
   m_Name: StoneDisk_007
   m_TagString: Untagged
@@ -2493,6 +2733,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &1404868634
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1404868629}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300082, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &1504641938
 GameObject:
   m_ObjectHideFlags: 0
@@ -2504,6 +2757,7 @@ GameObject:
   - 33: {fileID: 1504641941}
   - 23: {fileID: 1504641940}
   - 114: {fileID: 1504641942}
+  - 64: {fileID: 1504641943}
   m_Layer: 8
   m_Name: StoneDisk_001
   m_TagString: Untagged
@@ -2599,6 +2853,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &1504641943
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1504641938}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300094, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &1542274593
 GameObject:
   m_ObjectHideFlags: 0
@@ -2607,7 +2874,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1542274594}
-  - 95: {fileID: 1542274595}
   m_Layer: 8
   m_Name: CircularDiskOutput
   m_TagString: Untagged
@@ -2650,21 +2916,6 @@ Transform:
   - {fileID: 374358181}
   - {fileID: 854225182}
   m_Father: {fileID: 0}
---- !u!95 &1542274595
-Animator:
-  serializedVersion: 2
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 9500000, guid: fa64c01d33385e84596b9676fbae7d72,
-    type: 3}
-  m_PrefabInternal: {fileID: 968802091}
-  m_GameObject: {fileID: 1542274593}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_ApplyRootMotion: 1
-  m_AnimatePhysics: 0
-  m_HasTransformHierarchy: 1
 --- !u!1 &1553980822
 GameObject:
   m_ObjectHideFlags: 0
@@ -2676,6 +2927,7 @@ GameObject:
   - 33: {fileID: 1553980825}
   - 23: {fileID: 1553980824}
   - 114: {fileID: 1553980826}
+  - 64: {fileID: 1553980827}
   m_Layer: 8
   m_Name: StoneDisk_020
   m_TagString: Untagged
@@ -2771,6 +3023,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &1553980827
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1553980822}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300056, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &1619691530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2782,6 +3047,7 @@ GameObject:
   - 33: {fileID: 1619691533}
   - 23: {fileID: 1619691532}
   - 114: {fileID: 1619691534}
+  - 64: {fileID: 1619691535}
   m_Layer: 8
   m_Name: StoneDisk_012
   m_TagString: Untagged
@@ -2877,6 +3143,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &1619691535
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1619691530}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300072, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &1674216312
 GameObject:
   m_ObjectHideFlags: 0
@@ -3013,6 +3292,7 @@ GameObject:
   - 33: {fileID: 1804237649}
   - 23: {fileID: 1804237648}
   - 114: {fileID: 1804237650}
+  - 64: {fileID: 1804237651}
   m_Layer: 8
   m_Name: StoneDisk_010
   m_TagString: Untagged
@@ -3108,6 +3388,19 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &1804237651
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1804237646}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300076, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
 --- !u!1 &2035025436
 GameObject:
   m_ObjectHideFlags: 0
@@ -3119,6 +3412,7 @@ GameObject:
   - 33: {fileID: 2035025439}
   - 23: {fileID: 2035025438}
   - 114: {fileID: 2035025440}
+  - 64: {fileID: 2035025441}
   m_Layer: 8
   m_Name: StoneDisk_003
   m_TagString: Untagged
@@ -3214,3 +3508,16 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
   destroyOnEnd: 0
+--- !u!64 &2035025441
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2035025436}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
+  m_Mesh: {fileID: 4300090, guid: fa64c01d33385e84596b9676fbae7d72, type: 3}
