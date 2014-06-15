@@ -46,6 +46,6 @@ public class FGTest : MonoBehaviour {
 	}
 
 	void SayHello (TapGesture  gesture) {
-		Debug.Log ("HelloWorld");
+		//Debug.Log ("HelloWorld");
 	}
 }
