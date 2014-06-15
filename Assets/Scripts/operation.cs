@@ -7,6 +7,8 @@ public class operation : MonoBehaviour
 
 		//transform of a segment
 		public Transform[] mSegments;
+		public AudioClip grind;
+		AudioClip cutClip;
 		Disk mDisk;
 
 		// Use this for initialization
@@ -23,9 +25,25 @@ public class operation : MonoBehaviour
 		void OnGUI ()
 		{
 
-				if (GUI.Button (new Rect (0, 0, Screen.width / 10, Screen.height / 15), "Rotate")) {
-						mDisk.RotateAtR (2);
+				if (GUI.Button (new Rect (0, 0, Screen.width / 8, Screen.height / 15), "Rotate inner")) {
+						mDisk.RotateAtR (1);
+			//audio play should not be here
+						audio.Play ();
 				}
+				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate middle")) {
+						mDisk.RotateAtR (2);
+			//audio play should not be here
+						audio.Play ();
+				}
+				if (GUI.Button (new Rect (0, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer")) {
+						mDisk.RotateAtR (3);
+			//audio play should not be here
+						audio.Play ();
+
+				}
+				//if (GUI.Button (new Rect (0, 3 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "PlaySound")) {
+				//audio.Play();
+				//}
 		}
 }
 
@@ -36,36 +54,30 @@ public class Disk
 		DiskSegment[] mSegments;
 		const int thetaModolus = 8; //this is not flexible
 		const int radiusModolus = 3; //this is not flexible
+		AudioClip mRotateSound;
 
 		public Disk (Transform[] segments)
 		{
 
 				mSegments = new DiskSegment[thetaModolus * radiusModolus];
-
-				int i = 0;
+					
+		int i = 0;
 
 				for (int r = 1; r <= radiusModolus; r++) {
 
 						for (int theta = 1; theta <= thetaModolus; theta++) {
 								mSegments [i] = new DiskSegment (segments [i], new Vector2 (r, theta));
-				//Debug.Log (System.String.Format ("initialization: r: {0}, theta: {1}", mSegments [i].r, mSegments [i].theta));
+								//Debug.Log (System.String.Format ("initialization: r: {0}, theta: {1}", mSegments [i].r, mSegments [i].theta));
 								i++;
 						}
 				}
-				Debug.Log ("initialization completed");
 		}
 
 		public void RotateAtR (int r)
 		{
-
-				//DiskSegment[] temp = new DiskSegment[8];
 				DiskSegment[] temp = GetSegmentsR (r);
 
-
-				Debug.Log ("RotateAtR(), temp.length: " + temp.Length);
-
 				for (int i=0; i<temp.Length; i++) {
-						Debug.Log ("Disk:RotateAtR() called");
 						temp [i].Rotate (45.0f);
 				}
 
@@ -78,13 +90,11 @@ public class Disk
 				List<DiskSegment> temp = new List<DiskSegment> ();
 
 				foreach (DiskSegment seg in mSegments) {
-						Debug.Log (System.String.Format ("Disk:GetSegmentsR() called 2, seg.r = {0} , input r = {1}", seg.r, r));
+						//Debug.Log (System.String.Format ("Disk:GetSegmentsR() called 2, seg.r = {0} , input r = {1}", seg.r, r));
 						if (seg.r == r) {
 								temp.Add (seg);
 						}
 				}
-
-				Debug.Log ("GetSegmentsR, temp count: " + temp.Count);
 
 				return temp.ToArray ();
 		}
@@ -118,11 +128,13 @@ public class DiskSegment
 						mCoordinate = aCoor;
 				else
 						Debug.Log ("null diskSegment Coor init");
+
 		}
 
 		public void Rotate (float angle)
 		{
-				Debug.Log ("DiskSegment:Rotate() called");
-				mTransform.Rotate (new Vector3 (0, 45, 0));
+				//mTransform.Rotate (new Vector3 (0, 45, 0));
+				iTween.RotateAdd (this.mTransform.gameObject, new Vector3 (0, 45, 0), 3.5f);
+
 		}
 }
