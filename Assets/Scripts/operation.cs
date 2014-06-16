@@ -7,9 +7,8 @@ public class operation : MonoBehaviour
 
 		//transform of a segment
 		public Transform[] mSegments;
-		public AudioClip grind;
 		AudioClip cutClip;
-		Disk mDisk;
+		public Disk mDisk;
 
 		// Use this for initialization
 		void Start ()
@@ -27,19 +26,12 @@ public class operation : MonoBehaviour
 
 				if (GUI.Button (new Rect (0, 0, Screen.width / 8, Screen.height / 15), "Rotate inner")) {
 						mDisk.RotateAtR (1);
-			//audio play should not be here
-						audio.Play ();
 				}
 				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate middle")) {
 						mDisk.RotateAtR (2);
-			//audio play should not be here
-						audio.Play ();
 				}
 				if (GUI.Button (new Rect (0, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer")) {
 						mDisk.RotateAtR (3);
-			//audio play should not be here
-						audio.Play ();
-
 				}
 				//if (GUI.Button (new Rect (0, 3 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "PlaySound")) {
 				//audio.Play();
@@ -47,21 +39,23 @@ public class operation : MonoBehaviour
 		}
 }
 
+[System.Serializable]
 public class Disk
 {
 
 		//temporary
-		DiskSegment[] mSegments;
+		public DiskSegment[] mSegments;
 		const int thetaModolus = 8; //this is not flexible
 		const int radiusModolus = 3; //this is not flexible
-		AudioClip mRotateSound;
+		public AudioClip mRotateSound;
+	public Texture2D mTexture;
 
 		public Disk (Transform[] segments)
 		{
 
 				mSegments = new DiskSegment[thetaModolus * radiusModolus];
 					
-		int i = 0;
+				int i = 0;
 
 				for (int r = 1; r <= radiusModolus; r++) {
 
@@ -71,6 +65,11 @@ public class Disk
 								i++;
 						}
 				}
+
+		mRotateSound = (AudioClip) Resources.Load ("Sounds/grinderCut",typeof(AudioClip));
+
+
+
 		}
 
 		public void RotateAtR (int r)
@@ -78,8 +77,10 @@ public class Disk
 				DiskSegment[] temp = GetSegmentsR (r);
 
 				for (int i=0; i<temp.Length; i++) {
-						temp [i].Rotate (45.0f);
+						temp [i].Rotate (45.0f,mRotateSound.length);
 				}
+
+		AudioSource.PlayClipAtPoint (mRotateSound, new Vector3 (0, 12, 0));
 
 		}
 
@@ -95,10 +96,8 @@ public class Disk
 								temp.Add (seg);
 						}
 				}
-
 				return temp.ToArray ();
 		}
-
 }
 
 public class DiskSegment
@@ -131,10 +130,11 @@ public class DiskSegment
 
 		}
 
-		public void Rotate (float angle)
+		public void Rotate (float angle, float time)
 		{
 				//mTransform.Rotate (new Vector3 (0, 45, 0));
-				iTween.RotateAdd (this.mTransform.gameObject, new Vector3 (0, 45, 0), 3.5f);
+		iTween.RotateAdd (this.mTransform.gameObject,iTween.Hash("time",time,"amount",45*Vector3.up,"easetype",iTween.EaseType.linear));
+		//iTween.MoveAdd (transform.gameObject,iTween.Hash("time",audio.clip.length,"amount",Vector3.forward,"easetype",iTween.EaseType.linear));
 
 		}
 }
