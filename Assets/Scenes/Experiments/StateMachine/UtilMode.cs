@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Util
 {
-	class Mode<T, ID>
+	public class Mode<T, ID>
 	{
 		T mObj;
 		Type mModeIDType;

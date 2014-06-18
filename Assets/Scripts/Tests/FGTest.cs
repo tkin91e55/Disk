@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class FGTest : MonoBehaviour {
@@ -10,7 +10,7 @@ public class FGTest : MonoBehaviour {
 
 	void Start() {
 
-		Transform[] tempSegs = theDisk.GetComponent<operation> ().mSegments;
+		Transform[] tempSegs = theDisk.GetComponent<DiskController> ().mSegments;
 		theSegments = new GameObject[tempSegs.Length];
 		for (int i = 0; i< tempSegs.Length; i++) {
 			theSegments[i] = tempSegs[i].gameObject;
