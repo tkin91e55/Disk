@@ -88,8 +88,6 @@ public class Disk:IDisk
 
 	public void ReflectAtTheta (int theta, Transform soundSource){}
 
-
-
 		DiskSegment[] GetSegmentsR (int r)
 		{
 				List<DiskSegment> temp = new List<DiskSegment> ();
