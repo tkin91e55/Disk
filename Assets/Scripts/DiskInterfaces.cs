@@ -11,4 +11,9 @@ public interface IDisk {
 }
 
 public interface IDiskSegment {
+
+	int r{get;}
+	int theta{get;}
+	void Rotate (float angle, float time);
 }
+

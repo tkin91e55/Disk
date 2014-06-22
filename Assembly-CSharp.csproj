@@ -46,10 +46,28 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scenes\Experiments\Sounds\testSounds.cs" />
+     <Compile Include="Assets\Scenes\Experiments\StateMachine\SMmonoT.cs" />
+     <Compile Include="Assets\Scenes\Experiments\StateMachine\UtilMode.cs" />
+     <Compile Include="Assets\Scripts\DiskController.cs" />
+     <Compile Include="Assets\Scripts\DiskInterfaces.cs" />
      <Compile Include="Assets\Scripts\Tests\FGTest.cs" />
-     <Compile Include="Assets\Scripts\operation.cs" />
+     <Compile Include="Assets\UnitTests\Scripts\CodeExamples\SpaceshipMotor1.cs" />
+     <Compile Include="Assets\UnitTests\Scripts\CodeExamples\SpaceshipMotor2.cs" />
+     <Compile Include="Assets\UnitTests\Scripts\IGunController.cs" />
+     <Compile Include="Assets\UnitTests\Scripts\IMovementController.cs" />
+     <Compile Include="Assets\UnitTests\Scripts\LaserBullet.cs" />
+     <Compile Include="Assets\UnitTests\Scripts\SpaceshipController.cs" />
+     <Compile Include="Assets\UnitTests\Scripts\SpaceshipMotor.cs" />
+     <Compile Include="Assets\UnityTestTools\Common\ITestResult.cs" />
+     <Compile Include="Assets\UnityTestTools\Common\ResultWriter\ResultSummarizer.cs" />
+     <Compile Include="Assets\UnityTestTools\Common\ResultWriter\StackTraceFilter.cs" />
+     <Compile Include="Assets\UnityTestTools\Common\ResultWriter\XmlResultWriter.cs" />
+     <Compile Include="Assets\UnityTestTools\Common\TestResultState.cs" />
+     <None Include="Assets\UnityTestTools\LICENSE.txt" />
      <None Include="Assets\Plugins\FingerGestures\Readme.txt" />
      <None Include="Assets\Flow Free\Shaders\Flow Free\Flow_Diffuse_Free_Mobile.shader" />
+     <None Include="Assets\UnityTestTools\changelog.txt" />
      <None Include="Assets\Plugins\Pixelplacement\iTween\ReadMe!\ReadMe!.txt" />
      <None Include="Assets\Flow Free\Shaders\Flow Free\Flow_Diffuse_Free.shader" />
  <Reference Include="Flow">
