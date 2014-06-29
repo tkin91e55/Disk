@@ -18,6 +18,7 @@ public class DiskController : MonoBehaviour
 		// Update is called once per frame
 		void Update ()
 		{
+		mDisk.mode.Proc();
 		}
 
 		void OnGUI ()
@@ -42,20 +43,13 @@ public class DiskController : MonoBehaviour
 public class Disk:IDisk
 {
 
-		struct SegmentInfo:IDiskSegment
+		class SegmentInfo:IDiskSegment
 		{
 		
 				IDiskSegment mSeg;
 				int relativeTheta;
-				static int thetaMod = 0;
-
-				/// <summary>
-				/// Gets the relative r, i.e. the absolute r
-				/// </summary>
-				/// <value>The r.</value>
-				public int r {
-						get { return mSeg.r;}
-				}
+				static int thetaMod = 8;
+				public int test;
 
 				/// <summary>
 				/// Initializes a new instance of the <see cref="Disk+SegmentInfo"/> struct.
@@ -64,12 +58,21 @@ public class Disk:IDisk
 				/// <param name="aCoor">The absolute(correct, original) coordinate for the true picture of puzzle.</param>
 				public SegmentInfo (Transform aTrans, Vector2 aCoor)
 				{
-
+			
 						//Assign mSeg as a instance of DiskSegment
 						mSeg = new DiskSegment (aTrans, aCoor);
 						relativeTheta = mSeg.theta;
+						test = 1;
 				}
 
+				/// <summary>
+				/// Gets the relative r, i.e. the absolute r
+				/// </summary>
+				/// <value>The r.</value>
+				public int r {
+						get { return mSeg.r;}
+				}
+	
 				/// <summary>
 				/// The relative theta to the disk
 				/// </summary>
@@ -81,6 +84,25 @@ public class Disk:IDisk
 				public void Rotate (float angle, float time)
 				{
 						mSeg.Rotate (angle, time);
+
+						//this++;
+						PlusRelativeTheta ();
+				}
+
+				public DiskSegment mDiskSegment {
+
+						get { return (DiskSegment)mSeg;}
+				}
+
+				/// <summary>
+				///  Increase the relative angle coordiante by 1, auto handle recycling
+				/// </summary>
+				void PlusRelativeTheta ()
+				{
+
+						relativeTheta ++;
+						if (relativeTheta > thetaMod)
+								relativeTheta = 1;
 				}
 
 				/// <summary>
@@ -89,9 +111,11 @@ public class Disk:IDisk
 				/// <param name="aSeg">A SegmentInfo.</param>
 				public static SegmentInfo operator ++ (SegmentInfo aSeg)
 				{
+						//Debug.Log("segmentInfo operator ++ called and original aSeg.relativeTheta is: " + aSeg.relativeTheta);
 						aSeg.relativeTheta ++;
 						if (aSeg.relativeTheta > thetaMod)
 								aSeg.relativeTheta = 1;
+						//Debug.Log("the after relativeTheta is : " + aSeg.relativeTheta);
 						return aSeg;
 				}
 		}
@@ -99,44 +123,42 @@ public class Disk:IDisk
 		SegmentInfo[] mSegments;
 
 		//temporary
-		DiskSegment[] mSegmentsTemp;
 		const int thetaDivision = 8; //this is not flexible
 		const int radiusDivision = 3;
 
 		//this is not flexible
 		AudioClip mRotateSound;
-		Hashtable mRelativeAngle2Disk;
-		//RelativeAngle2Disk mTransAngle
 
-
+		/// <summary>
+		/// The number of segment of this Disk contains
+		/// </summary>
+		/// <value>The segment count.</value>
 		public int SegmentCount {
 				get{ return mSegments.Length;}
 		}
 
-		enum DiskState
+		public enum DiskState
 		{
 				isIdle,
 				isBusy,
 				isOperating
 		}
-		Util.Mode<Disk,DiskState> mode;
+
+		public Util.Mode<Disk,DiskState> mode;
 
 		public Disk (Transform[] segments)
 		{
-
-				//mSegmentsTemp = new DiskSegment[thetaDivision * radiusDivision];
-		mSegments = new SegmentInfo[thetaDivision * radiusDivision];
+				mSegments = new SegmentInfo[thetaDivision * radiusDivision];
+				mode = new Util.Mode<Disk, DiskState> (this);
 
 				mode.Set (DiskState.isBusy);
 					
 				int i = 0;
 
 				for (int r = 1; r <= radiusDivision; r++) {
-
 						for (int theta = 1; theta <= thetaDivision; theta++) {
 								mSegments [i] = new SegmentInfo (segments [i], new Vector2 (r, theta));
 								
-								//Debug.Log(mRelativeAngle2Disk[mSegments[i]]);
 								//Debug.Log (System.String.Format ("initialization: r: {0}, theta: {1}", mSegments [i].r, mSegments [i].theta));
 								i++;
 						}
@@ -147,15 +169,16 @@ public class Disk:IDisk
 
 		}
 
+	#region Disk's public function
 		/// <summary>
-		/// Rotates diskSegments at r ,from 1 to 8.
+		/// Rotates diskSegments at r ,from 1 to 3.
 		/// </summary>
-		/// <param name="r">The r coordinate.</param>
+		/// <param name="r">The r coordinate, input from 1 to 3.</param>
 		/// <param name="soundSource">Where Sound source should play.</param>
 		public void RotateAtR (int r, Transform soundSource)
 		{
-				DiskSegment[] temp = GetSegmentsR (r);
 
+				SegmentInfo[] temp = GetSegmentsR (r);
 				for (int i=0; i<temp.Length; i++) {
 						temp [i].Rotate (45.0f, mRotateSound.length);
 				}
@@ -167,13 +190,40 @@ public class Disk:IDisk
 
 		public void ReflectAtTheta (int theta, Transform soundSource)
 		{
+			
 		}
 
-		DiskSegment[] GetSegmentsR (int r)
+		/// <summary>
+		/// Get the disk's segment by relative coordinate
+		/// </summary>
+		/// <returns>the segment with r, theta coor.</returns>
+		/// <param name="r">r in relative coor, but suppose to be same as absolute.</param>
+		/// <param name="theta">theta in relative coor.</param>
+		public DiskSegment GetASegment (int r, int theta)
 		{
-		List<SegmentInfo> temp = new List<SegmentInfo> ();
+		
+				SegmentInfo temp;
+		
+				foreach (SegmentInfo seg in mSegments) {
+						if (seg.r == r && seg.theta == theta) {
+								temp = seg;
+								return temp.mDiskSegment;
+						}
+				}
+				Debug.LogError ("cannot find the segment");
+				return null;
+		}
+	
 
-		foreach (SegmentInfo seg in mSegments) {
+	#endregion
+
+
+		SegmentInfo[] GetSegmentsR (int r)
+		{
+				List<SegmentInfo> temp = new List<SegmentInfo> ();
+
+
+				foreach (SegmentInfo seg in mSegments) {
 						if (seg.r == r) {
 								temp.Add (seg);
 						}
@@ -181,27 +231,18 @@ public class Disk:IDisk
 				return temp.ToArray ();
 		}
 
-		public DiskSegment GetASegment (int r, int theta)
-		{
+		SegmentInfo[] GetSegmentTheta (int theta){
 
-				DiskSegment temp;
+		return null;
 
-				foreach (DiskSegment seg in mSegmentsTemp) {
-						if (seg.r == r && seg.theta == theta) {
-								temp = seg;
-								return temp;
-						}
-				}
-				Debug.LogError ("cannot find the segment");
-				return null;
-		}
 
+	}
 }
 
 public class DiskSegment:IDiskSegment
 {
 
-		Transform mTransform;
+		public Transform mTransform;
 		Vector2 mCoordinate; //(r,theta), the coordinate has no zero offset
 
 		public int r {
@@ -232,4 +273,7 @@ public class DiskSegment:IDiskSegment
 				iTween.RotateAdd (this.mTransform.gameObject, iTween.Hash ("time", time, "amount", 45 * Vector3.up, "easetype", iTween.EaseType.easeInQuad));
 				//iTween.MoveAdd (transform.gameObject,iTween.Hash("time",audio.clip.length,"amount",Vector3.forward,"easetype",iTween.EaseType.linear));
 		}
+
+		public void Reflect () {
+	}
 }

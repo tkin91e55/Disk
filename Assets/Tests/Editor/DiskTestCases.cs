@@ -17,19 +17,69 @@ namespace DiskTests
 				public void DiskInitalizeTest ()
 				{
 						Disk testObj = new Disk (GetMockSegments ());
-						Assert.IsNotNull(testObj.SegmentCount);
-
-						//theSub.RotateAtR(1,null);
+						Assert.IsNotNull (testObj);
 				}
 
-		[Test]
-		public void DiskGetSegmentAt_R_Theta () {
+				[Test]
+				public void DiskGetSegmentAt_R_Theta ()
+				{
 
-			Disk testObj = new Disk (GetMockSegments ());
-			DiskSegment temp = testObj.GetASegment(1,8);
-			Assert.AreEqual(temp.r,1);
-			Assert.AreEqual(temp.theta,8);
-		}
+						Disk testObj = new Disk (GetMockSegments ());
+						DiskSegment temp = testObj.GetASegment (1, 8);
+						Assert.AreEqual (temp.r, 1);
+						Assert.AreEqual (temp.theta, 8);
+				}
+
+				[Test]
+				public void DiskSegmentInfoCyclicTheta ()
+				{
+
+						//TODO: Test whether the cyclic relative theta coor work
+						Disk mockDisk = new Disk (GetMockSegments ());
+
+						Assert.AreEqual (8, mockDisk.GetASegment (3, 8).theta);
+						mockDisk.RotateAtR (3, null);
+						Assert.AreEqual (7, mockDisk.GetASegment (3, 8).theta);
+
+				}
+
+				[Test]
+				//Test the Disk RotateAtR function
+				public void DiskRotateAtR ()
+				{
+						Disk mockDisk = new Disk (GetMockSegments ());
+
+						int r = 3, absR, relativeR;
+						int theta = 4, absTheta, relativeTheta;
+
+						//getting a segment in relative coor
+						DiskSegment traceSeg = mockDisk.GetASegment (r, theta);
+
+						absR = traceSeg.r;
+						relativeR = r;
+						absTheta = traceSeg.theta;
+						relativeTheta = theta;
+
+						Assert.AreEqual (r, traceSeg.r);
+						Assert.AreEqual (theta, traceSeg.theta);
+
+						mockDisk.RotateAtR (r, null);
+						//after rotation, the trace segment absolute coor should keep the same, but not relative coor.
+						relativeTheta ++;
+
+						//Result: the traceSeg abs coor should not change:
+						Assert.AreEqual (absR, traceSeg.r);
+						Assert.AreEqual (absTheta, traceSeg.theta);
+
+						//Result: getting the Disk's segment with same relative coor should not be traceSeg anymore:
+						Assert.AreNotEqual (traceSeg, mockDisk.GetASegment (r, theta));
+						Assert.AreEqual (traceSeg, mockDisk.GetASegment (r, theta + 1));
+				}
+
+				[Test]
+				public void DiskModeFunctionality ()
+				{
+				}
 #endif
 
 				//how to make this work?
@@ -40,13 +90,16 @@ namespace DiskTests
 
 				}
 
+				//this function was tested valid
 				Transform[] GetMockSegments ()
 				{
 
-						GameObject goPrefab = (GameObject)Resources.LoadAssetAtPath ("Assets/Tests/Editor/DiskMock.prefab", typeof(GameObject));
+						//DiskMock.prefab is under Editor folder because this script is needed under Editor folder
+						GameObject goPrefab = (GameObject)Resources.LoadAssetAtPath ("Assets/Tests/Editor/DiskMock.prefab", typeof(GameObject)); 
 						Transform[] mockSegments = goPrefab.GetComponent<DiskController> ().mSegments;
 
 						return mockSegments;
 				}
+
 		}
 }
