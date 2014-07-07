@@ -1,16 +1,63 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\DiskController.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Plugins\CommonUtility\Utility.cs">
     <Files>
-      <File FileName="Assets\Scripts\DiskController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\DiskController.cs" Line="176" Column="40" />
-      <File FileName="Assets\UnitTests\Tests\Editor\SpaceshipControllerTests.cs" Line="1" Column="1" />
-      <File FileName="Assets\UnitTests\Scripts\IGunController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Tests\Editor\DiskTestCases.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\DiskController.cs" Line="15" Column="38" />
+      <File FileName="Assets\UnitTests\Tests\Editor\SpaceshipControllerTests.cs" Line="2" Column="23" />
+      <File FileName="Assets\Tests\Editor\DiskTestCases.cs" Line="122" Column="79" />
       <File FileName="Assets\UnitTests\Scripts\SpaceshipController.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\DiskInterfaces.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scenes\Experiments\StateMachine\UtilMode.cs" Line="1" Column="1" />
+      <File FileName="Assets\UnitTests\Scripts\SpaceshipMotor.cs" Line="5" Column="56" />
+      <File FileName="..\iTweenExamples\Assets\iTweenExamples\CallbacksExample\Scripts\CallbacksExample.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\DiskSegment.cs" Line="26" Column="14" />
+      <File FileName="Assets\Plugins\CommonUtility\Utility.cs" Line="26" Column="41" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="Assembly-CSharp" expanded="True">
+            <Node name="Scenes" expanded="True">
+              <Node name="Experiments" expanded="True">
+                <Node name="StateMachine" expanded="True" />
+              </Node>
+            </Node>
+            <Node name="Scripts" expanded="True" />
+            <Node name="UnitTests" expanded="True">
+              <Node name="Scripts" expanded="True" />
+            </Node>
+          </Node>
+          <Node name="Assembly-CSharp-Editor" expanded="True">
+            <Node name="Tests" expanded="True">
+              <Node name="Editor" expanded="True" />
+            </Node>
+            <Node name="UnitTests" expanded="True">
+              <Node name="Tests" expanded="True">
+                <Node name="Editor" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+          <Node name="Assembly-CSharp-firstpass" expanded="True">
+            <Node name="Plugins" expanded="True">
+              <Node name="CommonUtility" expanded="True">
+                <Node name="Utility.cs" selected="True" />
+              </Node>
+              <Node name="Pixelplacement" expanded="True">
+                <Node name="iTween" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

@@ -10,6 +10,8 @@ public class FGTest : MonoBehaviour {
 
 	void Start() {
 
+		//obsolete
+#if false
 		Transform[] tempSegs = theDisk.GetComponent<DiskController> ().mSegments;
 		theSegments = new GameObject[tempSegs.Length];
 		for (int i = 0; i< tempSegs.Length; i++) {
@@ -22,6 +24,7 @@ public class FGTest : MonoBehaviour {
 		TRZ = GetComponent<TapRecognizer> ();
 
 		TRZ.OnGesture += SayHello;
+#endif
 		}
 
 	void OnTap () {

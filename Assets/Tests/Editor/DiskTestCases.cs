@@ -82,6 +82,22 @@ namespace DiskTests
 				}
 #endif
 
+#if true //Disk Segment basic tests
+
+		[Test]
+		public void TestAsPublisher () {
+
+			DiskSegment aSegTrans = (DiskSegment)GetMockSegments().GetValue(0);
+
+			var testDS = Substitute.For<DiskSegment>();
+
+			Debug.Log(System.String.Format("testDS : {0}, {1}",testDS.r,testDS.theta));
+			//This is the limitation of NSub...you can't call base
+			//testDS.Rotate(45f,1f);
+
+		}
+#endif
+
 				//how to make this work?
 				IEnumerator SimpleTest ()
 				{
@@ -91,7 +107,7 @@ namespace DiskTests
 				}
 
 				//this function was tested valid
-				Transform[] GetMockSegments ()
+				/*Transform[] GetMockSegments ()
 				{
 
 						//DiskMock.prefab is under Editor folder because this script is needed under Editor folder
@@ -99,7 +115,27 @@ namespace DiskTests
 						Transform[] mockSegments = goPrefab.GetComponent<DiskController> ().mSegments;
 
 						return mockSegments;
-				}
+				}*/
+
+		DiskSegment[] GetMockSegments () {
+
+			GameObject goPrefab = (GameObject)Resources.LoadAssetAtPath ("Assets/Scenes/CircularDisk3r8.prefab", typeof(GameObject)); 
+
+			List<Transform> childtrasforms = new List<Transform> ();
+			
+			Utility.RecursiveGetChildren (goPrefab.transform, childtrasforms);
+
+			List<DiskSegment> mockSegments = new List<DiskSegment>();
+
+			foreach (Transform trans in childtrasforms){
+
+				if (trans.GetComponent<DiskSegment>() != null)
+					mockSegments.Add(trans.GetComponent<DiskSegment>());
+			}
+
+			return mockSegments.ToArray();
+
+		}
 
 		}
 }
