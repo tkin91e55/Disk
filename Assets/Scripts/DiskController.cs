@@ -12,7 +12,7 @@ public class DiskController : MonoBehaviour
 		void Start ()
 		{
 				GameObject theGO = (GameObject)Instantiate (theDiskPrefab, Vector3.zero, Quaternion.identity);
-		Utility.SetAsChild(gameObject,theGO);
+				Utility.SetAsChild (gameObject, theGO);
 				DiskSegment[] mSegments;
 
 				mSegments = theGO.GetComponentsInChildren<DiskSegment> ();
@@ -218,10 +218,7 @@ public class Disk:IDisk
 
 		SegmentInfo[] GetSegmentTheta (int theta)
 		{
-
 				return null;
-
-
 		}
 }
 

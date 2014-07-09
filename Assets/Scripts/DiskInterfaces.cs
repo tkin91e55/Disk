@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public interface IDiskController {
 }
@@ -16,5 +17,10 @@ public interface IDiskSegment {
 	int theta{get;}
 	void Rotate (float angle, float time);
 	//void Reflect ();
+}
+
+public interface IRotatableSegment {
+
+	event EventHandler OnRotateFinish;
 }
 

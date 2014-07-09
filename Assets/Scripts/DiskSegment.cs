@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 //this class need to inherit from monobehaviour and becomes an individual script to make itween callbacks work
-public class DiskSegment: MonoBehaviour, IDiskSegment
+public class DiskSegment: MonoBehaviour, IDiskSegment, IRotatableSegment
 {
 
 	/// <summary>
@@ -33,7 +34,43 @@ public class DiskSegment: MonoBehaviour, IDiskSegment
 	void OnCompleteOperation () {
 		
 		//Debug.Log("itween callback");
+		PublishRotateComplete ();
 		
 	}
+
+	event EventHandler PostRotateEvent;
+
+	System.Object objectLock = new System.Object();
+
+	event EventHandler IRotatableSegment.OnRotateFinish{
+
+		add
+		{
+			lock (objectLock)
+			{
+				PostRotateEvent += value;
+			}
+		}
+		remove
+		{
+			lock (objectLock)
+			{
+				PostRotateEvent -= value;
+			}
+		}
+
+	}
+
+	void PublishRotateComplete () {
+
+		EventHandler handler = PostRotateEvent;
+
+		if (handler != null)
+		{
+			handler(this, new EventArgs());
+		}
+
+	}
+
 }
 
