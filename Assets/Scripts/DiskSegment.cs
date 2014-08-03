@@ -35,9 +35,12 @@ public class DiskSegment: MonoBehaviour, IDiskSegment, IRotatableSegment
 		
 		//Debug.Log("itween callback");
 		PublishRotateComplete ();
+		Debug.Log("onCompleteOperation() called");
 		
 	}
 
+
+	//rotation is a command, should not be delcared like this, it is going to be parallet to reflection
 	event EventHandler PostRotateEvent;
 
 	System.Object objectLock = new System.Object();
@@ -64,9 +67,11 @@ public class DiskSegment: MonoBehaviour, IDiskSegment, IRotatableSegment
 	void PublishRotateComplete () {
 
 		EventHandler handler = PostRotateEvent;
+		Debug.Log("PublishRotateComplete() called");
 
 		if (handler != null)
 		{
+			Debug.Log("has some event published");
 			handler(this, new EventArgs());
 		}
 
