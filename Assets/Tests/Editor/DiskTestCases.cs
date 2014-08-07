@@ -11,7 +11,7 @@ namespace DiskTests
 		public class DiskTestCases
 		{
 
-#if true //Disk basic test
+#if false //Disk basic test
 
 				[Test]
 				public void DiskInitalizeTest ()
