@@ -1,4 +1,4 @@
-﻿using NSubstitute;
+using NSubstitute;
 using NUnit.Framework;
 using UnityEngine;
 using System.Collections;
@@ -87,9 +87,9 @@ namespace DiskTests
 		[Test]
 		public void TestAsPublisher () {
 
-			DiskSegment aSegTrans = (DiskSegment)GetMockSegments().GetValue(0);
+			AbsDiskSegment aSegTrans = (AbsDiskSegment)GetMockSegments().GetValue(0);
 
-			var testDS = Substitute.For<DiskSegment>();
+			var testDS = Substitute.For<AbsDiskSegment>();
 
 			Debug.Log(System.String.Format("testDS : {0}, {1}",testDS.r,testDS.theta));
 			//This is the limitation of NSub...you can't call base
@@ -117,7 +117,7 @@ namespace DiskTests
 						return mockSegments;
 				}*/
 
-		DiskSegment[] GetMockSegments () {
+		AbsDiskSegment[] GetMockSegments () {
 
 			GameObject goPrefab = (GameObject)Resources.LoadAssetAtPath ("Assets/Scenes/CircularDisk3r8.prefab", typeof(GameObject)); 
 
@@ -125,12 +125,12 @@ namespace DiskTests
 			
 			Utility.RecursiveGetChildren (goPrefab.transform, childtrasforms);
 
-			List<DiskSegment> mockSegments = new List<DiskSegment>();
+			List<AbsDiskSegment> mockSegments = new List<AbsDiskSegment>();
 
 			foreach (Transform trans in childtrasforms){
 
-				if (trans.GetComponent<DiskSegment>() != null)
-					mockSegments.Add(trans.GetComponent<DiskSegment>());
+				if (trans.GetComponent<AbsDiskSegment>() != null)
+					mockSegments.Add(trans.GetComponent<AbsDiskSegment>());
 			}
 
 			return mockSegments.ToArray();

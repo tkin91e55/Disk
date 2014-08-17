@@ -13,9 +13,9 @@ public class main : MonoBehaviour
 		{
 				GameObject theGO = (GameObject)Instantiate (theDiskPrefab, Vector3.zero, Quaternion.identity);
 				Utility.SetAsChild (gameObject, theGO);
-				DiskSegment[] mSegments;
+				AbsDiskSegment[] mSegments;
 
-				mSegments = theGO.GetComponentsInChildren<DiskSegment> ();
+				mSegments = theGO.GetComponentsInChildren<AbsDiskSegment> ();
 				
 				mDisk = new Disk (mSegments);
 		}
@@ -47,7 +47,7 @@ public class Disk
 {
 	
 
-		public Disk (DiskSegment[] segments)
+		public Disk (AbsDiskSegment[] segments)
 		{
 
 

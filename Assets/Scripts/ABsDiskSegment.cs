@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 //this class need to inherit from monobehaviour and becomes an individual script to make itween callbacks work
-public class DiskSegment: MonoBehaviour, IDiskSegment, IRotatableSegment
+public class AbsDiskSegment: MonoBehaviour, IDiskSegment, IRotatableSegment
 {
 
 	/// <summary>
