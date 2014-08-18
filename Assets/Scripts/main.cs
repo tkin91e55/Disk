@@ -7,13 +7,13 @@ public class main : MonoBehaviour
 	
 		public GameObject theDiskPrefab;
 		Disk mDisk;
+		AbsDiskSegment[] mSegments;
 
 		// Use this for initialization
 		void Start ()
 		{
 				GameObject theGO = (GameObject)Instantiate (theDiskPrefab, Vector3.zero, Quaternion.identity);
 				Utility.SetAsChild (gameObject, theGO);
-				AbsDiskSegment[] mSegments;
 
 				mSegments = theGO.GetComponentsInChildren<AbsDiskSegment> ();
 				
@@ -29,6 +29,14 @@ public class main : MonoBehaviour
 		{
 
 				if (GUI.Button (new Rect (0, 0, Screen.width / 8, Screen.height / 15), "Rotate inner")) {
+						foreach (AbsDiskSegment DS in mSegments){
+				if(DS.r == 3)
+				{
+					Debug.Log("DS.r = 3");
+					DiskCmd rotateCmd = new DiskRotateCmd(DS);
+					rotateCmd.Execute();
+				}
+			}
 						//mDisk.RotateAtR (1, transform);
 				}
 				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate middle")) {

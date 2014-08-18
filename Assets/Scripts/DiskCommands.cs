@@ -6,7 +6,7 @@ public abstract class DiskCmd : ICommand {
 	protected AbsDiskSegment receiver;
 	
 	public DiskCmd (AbsDiskSegment aDiskSeg) {
-		
+		Debug.Log("DiskCmd constructor");
 		receiver = aDiskSeg;
 	}
 
@@ -24,11 +24,14 @@ public abstract class DiskCmd : ICommand {
 public class DiskRotateCmd : DiskCmd {
 
 	public DiskRotateCmd (AbsDiskSegment aDiskSeg) : base(aDiskSeg) {
+		Debug.Log("DiskRotateCmd constructor");
 	}
 
 	public override void Execute () {
 
-		if (receiver != null)
+		if (receiver != null){
+			Debug.Log("not null");
 			receiver.Rotate( 45.0f,1.3f );
+		}
 	}
 }
