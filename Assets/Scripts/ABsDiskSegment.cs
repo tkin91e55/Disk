@@ -79,3 +79,42 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment, IRotatableSegment
 
 }
 
+public class RelativeDiskSegment : IDiskSegment {
+
+	AbsDiskSegment mSegment;
+
+	int relativeR;
+	int relativeTheta;
+	static int Rmod=3;
+	static int ThetaMod=8;
+
+	public int r {
+		get{
+			return relativeR;
+		}
+	}
+
+	public int theta {
+		get{
+			return relativeTheta;
+		}
+	}
+
+	public RelativeDiskSegment (AbsDiskSegment adaptee) {
+		mSegment = adaptee;
+		relativeR = mSegment.r;
+		relativeTheta = mSegment.theta;
+	}
+
+	public void Rotate (float angle, float time){
+
+		relativeR ++;
+		if(relativeR > Rmod)
+			relativeR = 1;
+
+		Debug.Log("relativeR: " + relativeR);
+		mSegment.Rotate(angle,time);
+	}
+
+}
+

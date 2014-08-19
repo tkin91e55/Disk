@@ -1,22 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public interface ICommand {
+	void Execute ();
+	bool CanExecute ();
+}
+
 public abstract class DiskCmd : ICommand {
 	
-	protected AbsDiskSegment receiver;
+	protected IDiskSegment receiver;
 	
-	public DiskCmd (AbsDiskSegment aDiskSeg) {
-		Debug.Log("DiskCmd constructor");
+	public DiskCmd (IDiskSegment aDiskSeg) {
 		receiver = aDiskSeg;
 	}
 
 	public virtual void Execute () {
-
-		Debug.Log("DiskCmd.Exceture() called");
 	}
 
 	public bool CanExecute () {
-
 		return true;
 	}
 }
@@ -24,13 +25,11 @@ public abstract class DiskCmd : ICommand {
 public class DiskRotateCmd : DiskCmd {
 
 	public DiskRotateCmd (AbsDiskSegment aDiskSeg) : base(aDiskSeg) {
-		Debug.Log("DiskRotateCmd constructor");
 	}
 
 	public override void Execute () {
 
 		if (receiver != null){
-			Debug.Log("not null");
 			receiver.Rotate( 45.0f,1.3f );
 		}
 	}

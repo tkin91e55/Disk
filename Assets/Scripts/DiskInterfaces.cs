@@ -15,7 +15,7 @@ public interface IDiskSegment {
 
 	int r{get;}
 	int theta{get;}
-	//void Rotate (float angle, float time);
+	void Rotate (float angle, float time);
 	//void Reflect ();
 }
 
@@ -24,11 +24,7 @@ public interface IRotatableSegment {
 	event EventHandler OnRotateFinish;
 }
 
-public interface ICommand {
 
-	void Execute ();
-	bool CanExecute ();
-}
 
 
 

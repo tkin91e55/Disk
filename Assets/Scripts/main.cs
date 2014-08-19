@@ -29,14 +29,13 @@ public class main : MonoBehaviour
 		{
 
 				if (GUI.Button (new Rect (0, 0, Screen.width / 8, Screen.height / 15), "Rotate inner")) {
-						foreach (AbsDiskSegment DS in mSegments){
-				if(DS.r == 3)
-				{
-					Debug.Log("DS.r = 3");
-					DiskCmd rotateCmd = new DiskRotateCmd(DS);
-					rotateCmd.Execute();
-				}
-			}
+						foreach (AbsDiskSegment DS in mSegments) {
+								if (DS.r == 3) {
+										Debug.Log ("DS.r = 3");
+										DiskCmd rotateCmd = new DiskRotateCmd (DS);
+										rotateCmd.Execute ();
+								}
+						}
 						//mDisk.RotateAtR (1, transform);
 				}
 				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate middle")) {
@@ -61,7 +60,7 @@ public class Disk
 
 		}
 	
-	/*
+		/*
 	 * 
 		/// <summary>
 		/// Rotates diskSegments at r ,from 1 to 3.
