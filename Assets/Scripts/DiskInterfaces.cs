@@ -2,8 +2,8 @@
 using System.Collections;
 using System;
 
-public interface IDiskController {
-}
+//public interface IDiskController {
+//}
 
 public interface IDisk {
 

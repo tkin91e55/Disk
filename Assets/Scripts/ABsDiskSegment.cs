@@ -108,9 +108,18 @@ public class RelativeDiskSegment : IDiskSegment {
 
 	public void Rotate (float angle, float time){
 
-		relativeR ++;
+		//a temporary approach
+		if (angle > 0)
+			relativeR ++;
+		else if (angle < 0)
+			relativeR --;
+		else
+			Debug.LogError("zero angle!!?");
+
 		if(relativeR > Rmod)
 			relativeR = 1;
+		else if (relativeR < 1)
+			relativeR = Rmod;
 
 		Debug.Log("relativeR: " + relativeR);
 		mSegment.Rotate(angle,time);

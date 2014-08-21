@@ -20,17 +20,33 @@ public abstract class DiskCmd : ICommand {
 	public bool CanExecute () {
 		return true;
 	}
+
+	public virtual void Undo() {
+	}
 }
 
 public class DiskRotateCmd : DiskCmd {
 
+	float rotateAngle = 45.0f;
+	float rotateTime = 1.3f;
+
 	public DiskRotateCmd (AbsDiskSegment aDiskSeg) : base(aDiskSeg) {
 	}
 
-	public override void Execute () {
+	public DiskRotateCmd (AbsDiskSegment aDiskSeg, float angle, float rotateTime):base(aDiskSeg) {
+		rotateAngle = angle;
+		rotateTime = rotateTime;
+	}
 
+	public override void Execute () {
 		if (receiver != null){
-			receiver.Rotate( 45.0f,1.3f );
+			receiver.Rotate( rotateAngle,rotateTime );
+		}
+	}
+
+	public override void Undo () {
+		if ( receiver != null) {
+			receiver.Rotate( -rotateAngle,rotateTime );
 		}
 	}
 }
