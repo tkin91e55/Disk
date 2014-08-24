@@ -2,46 +2,48 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class main : MonoBehaviour
+public class Disk : MonoBehaviour
 {
 	
 		public GameObject theDiskPrefab;
-		Disk mDisk;
 		AbsDiskSegment[] mSegments;
-	DiskController diskController = new DiskController();
-
-		// Use this for initialization
+		DiskController diskController = new DiskController ();
+		List<DiskCmd> macroRotateCmd = new List<DiskCmd> ();
+		MacroDiskRotateCmd mRcmd;
+	
 		void Start ()
 		{
-		diskController.Start();
+				diskController.Start ();
 				GameObject theGO = (GameObject)Instantiate (theDiskPrefab, Vector3.zero, Quaternion.identity);
 				Utility.SetAsChild (gameObject, theGO);
 
 				mSegments = theGO.GetComponentsInChildren<AbsDiskSegment> ();
-				
-				mDisk = new Disk (mSegments);
+
+				ArrayList dsList = new ArrayList ();
+				foreach (AbsDiskSegment DS in mSegments) {
+						if (DS.r == 3) {
+								//Debug.Log ("DS.r = 3");
+								dsList.Add (DS);
+								macroRotateCmd.Add (new DiskRotateCmd (DS));
+						}
+
+				}
+				mRcmd = new MacroDiskRotateCmd (dsList);
 		}
-	
-		// Update is called once per frame
+
 		void Update ()
 		{
-		diskController.Update();
+				diskController.Update ();
 		}
 
 		void OnGUI ()
 		{
 				if (GUI.Button (new Rect (0, 0, Screen.width / 8, Screen.height / 15), "Rotate inner")) {
-						foreach (AbsDiskSegment DS in mSegments) {
-								if (DS.r == 3) {
-										//Debug.Log ("DS.r = 3");
-										DiskCmd rotateCmd = new DiskRotateCmd (DS);
-										rotateCmd.Execute ();
-								}
-						}
-						//mDisk.RotateAtR (1, transform);
+
+						mRcmd.Execute ();
 				}
-				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate middle")) {
-						//mDisk.RotateAtR (2, transform);
+				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate inner revert")) {
+
 				}
 				if (GUI.Button (new Rect (0, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer")) {
 						//mDisk.RotateAtR (3, transform);
@@ -50,15 +52,21 @@ public class main : MonoBehaviour
 				//audio.Play();
 				//}
 		}
+
+
+
 }
 
-public class Disk
-{
-		public Disk (AbsDiskSegment[] segments)
-		{
-		}
+/// <summary>
+/// Disk, show how to order commands
+/// </summary>
+//public class Disk
+//{
+//public Disk (AbsDiskSegment[] segments)
+//{
+//}
 	
-		/*
+/*
 	 * 
 		/// <summary>
 		/// Rotates diskSegments at r ,from 1 to 3.
@@ -122,36 +130,71 @@ public class Disk
 		{
 				return null;
 		}*/
-}
+//}
 
-public class DiskController {
+/// <summary>
+/// Disk controller, command executer
+/// </summary>
+public class DiskController
+{
+		public enum State
+		{
+				Idle,
+				Operating
+		}
 
-	public enum State {
-		idle,
-		operating
-	}
+		Util.Mode<DiskController,State> mMode;
+		int maxHistory = 5;
+		List<DiskCmd> history = new List<DiskCmd> ();
+		Queue<DiskCmd> cmdWait = new Queue<DiskCmd> ();
+		DiskCmd curCmd;
 
-	Util.Mode<DiskController,State> mMode;
+		/// <summary>
+		/// must be hooked outside since Diskcontroller is not a monobehavior
+		/// </summary>
+		public void Start ()
+		{
+				mMode = new Util.Mode<DiskController, State> (this);
+				mMode.Set (State.Idle);
+		}
 
-	int maxHistory = 5;
-	List<DiskCmd> history = new List<DiskCmd>();
-	Queue<DiskCmd> cmdWait = new Queue<DiskCmd>();
-	DiskCmd curCmd;
+		/// <summary>
+		/// must be hooked outside since Diskcontroller is not a monobehavior
+		/// </summary>
+		public void Update ()
+		{
+				mMode.Proc ();
+		}
 
-	/// <summary>
-	/// must be hooked outside since Diskcontroller is not a monobehavior
-	/// </summary>
-	public void Start () {
-		mMode = new Util.Mode<DiskController, State>(this);
-		mMode.Set (State.idle);
-	}
+		public void AddCmd (DiskCmd aCmd)
+		{
 
-	/// <summary>
-	/// must be hooked outside since Diskcontroller is not a monobehavior
-	/// </summary>
-	public void Update()
-	{
-		mMode.Proc();
-	}
+				if (cmdWait.Count <= 5)
+						cmdWait.Enqueue (aCmd);
+		}
+
+		void Idle_Init ()
+		{
+		}
+
+		void Idle_Proc ()
+		{
+		}
+
+		void Idle_Term ()
+		{
+		}
+
+		void Operating_Init ()
+		{
+		}
+
+		void Operating_Proc ()
+		{
+		}
+
+		void Operating_Term ()
+		{
+		}
 }
 

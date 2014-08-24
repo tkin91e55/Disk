@@ -3,9 +3,9 @@ using System.Collections;
 using System;
 
 //this class need to inherit from monobehaviour and becomes an individual script to make itween callbacks work
-public class AbsDiskSegment: MonoBehaviour, IDiskSegment, IRotatableSegment
+public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 {
-
+	
 	/// <summary>
 	/// x is r, y is theta 	
 	/// </summary>
@@ -19,29 +19,48 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment, IRotatableSegment
 		get{ return (int)mCoordinate.y;}
 	}
 
+	enum SegState {
+		idle=0,
+		busy=1
+	} 
+
+	SegState mState = SegState.idle;
+
+	public bool IsBusy{
+		get{
+			switch (mState){
+			case AbsDiskSegment.SegState.idle:
+				return false;
+				break;
+			case AbsDiskSegment.SegState.busy:
+				return true;
+				break;
+			default:
+				Debug.LogError("strange case for absSeg state");
+				return true;
+				break;
+			}
+		}
+	}
+
 	public void Rotate (float angle, float time)
 	{
-		//mTransform.Rotate (new Vector3 (0, 45, 0));
-		//iTween.RotateAdd (this.mTransform.gameObject, iTween.Hash ("time", time, "amount", 45 * Vector3.up, "easetype", iTween.EaseType.easeInQuad,"oncomplete","OnCompleteOperation","oncompletetarget",gameObject));
-		//this doesn't work for the callback
-		iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", 45 * Vector3.up, "easetype", iTween.EaseType.easeInQuad,"oncomplete","OnCompleteOperation"));
-		//iTween.MoveAdd (transform.gameObject,iTween.Hash("time",audio.clip.length,"amount",Vector3.forward,"easetype",iTween.EaseType.linear));
+		mState = SegState.busy;
+		iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", angle * Vector3.up, "easetype", iTween.EaseType.easeInQuad,"oncomplete","OnCompleteOperation"));
 	}
 	
 	public void Reflect () {
 	}
 	
 	void OnCompleteOperation () {
-		
-		//Debug.Log("itween callback");
-		PublishRotateComplete ();
-		Debug.Log("onCompleteOperation() called");
-		
+
+		//PublishRotateComplete ();
+		mState = SegState.idle;
 	}
 
 
 	//rotation is a command, should not be delcared like this, it is going to be parallet to reflection
-	event EventHandler PostRotateEvent;
+	/*event EventHandler PostRotateEvent;
 
 	System.Object objectLock = new System.Object();
 
@@ -75,7 +94,7 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment, IRotatableSegment
 			handler(this, new EventArgs());
 		}
 
-	}
+	}*/
 
 }
 
@@ -97,6 +116,13 @@ public class RelativeDiskSegment : IDiskSegment {
 	public int theta {
 		get{
 			return relativeTheta;
+		}
+	}
+
+	public bool IsBusy {
+
+		get{
+			return mSegment.IsBusy;
 		}
 	}
 

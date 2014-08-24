@@ -49,7 +49,9 @@
      <Compile Include="Assets\Scenes\Experiments\Sounds\testSounds.cs" />
      <Compile Include="Assets\Scenes\Experiments\StateMachine\SMmonoT.cs" />
      <Compile Include="Assets\Scenes\Experiments\StateMachine\UtilMode.cs" />
-     <Compile Include="Assets\Scripts\DiskController.cs" />
+     <Compile Include="Assets\Scripts\AbsDiskSegment.cs" />
+     <Compile Include="Assets\Scripts\Disk.cs" />
+     <Compile Include="Assets\Scripts\DiskCommands.cs" />
      <Compile Include="Assets\Scripts\DiskInterfaces.cs" />
      <Compile Include="Assets\Scripts\Tests\FGTest.cs" />
      <Compile Include="Assets\UnitTests\Scripts\CodeExamples\SpaceshipMotor1.cs" />

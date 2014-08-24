@@ -342,7 +342,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1675249464}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a90d3d7c6a16674f9e808587229a744, type: 3}
+  m_Script: {fileID: 11500000, guid: 4cc84f7c44fc52345822e5ba42dbcb5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   theDiskPrefab: {fileID: 100010, guid: e7f5b79336ed5dc408ce17b178a23cd2, type: 2}

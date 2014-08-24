@@ -17,6 +17,7 @@ public interface IDiskSegment {
 	int theta{get;}
 	void Rotate (float angle, float time);
 	//void Reflect ();
+	bool IsBusy{get;}
 }
 
 public interface IRotatableSegment {

@@ -1,52 +1,127 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 
-public interface ICommand {
-	void Execute ();
-	bool CanExecute ();
+public interface ICommand
+{
+		void Execute ();
+
+		bool CanExecute ();
 }
 
-public abstract class DiskCmd : ICommand {
+public interface IObserver
+{
+		void OnUpdate (IObservable sender, object eventArg);
+}
+
+public interface IObservable
+{
+		void Subscribe (IObserver obsvr);
+
+		void Unsubscribe (IObserver obsvr);
+
+		void Notify ();
+}
+
+public abstract class DiskCmd : ICommand
+{
 	
-	protected IDiskSegment receiver;
+		protected IDiskSegment receiver;
 	
-	public DiskCmd (IDiskSegment aDiskSeg) {
-		receiver = aDiskSeg;
+		public DiskCmd (IDiskSegment aDiskSeg)
+		{
+				receiver = aDiskSeg;
+		}
+
+		public virtual void Execute ()
+		{
+		}
+
+		public bool CanExecute ()
+		{
+				return !receiver.IsBusy;
+		}
+
+		public virtual void Undo ()
+		{
+		}
+}
+
+public abstract class DiskMacroCmd : ICommand {
+
+	protected ArrayList mReceivers;
+	protected List<DiskCmd> cmdGroup = new List<DiskCmd>();
+
+	public DiskMacroCmd (ArrayList receivers)  {
+		
+		mReceivers = receivers;
 	}
 
 	public virtual void Execute () {
+
+		if (cmdGroup != null){
+			foreach ( DiskCmd cmd in cmdGroup){
+				if(cmd.CanExecute())
+					cmd.Execute();
+			}
+		}
 	}
 
-	public bool CanExecute () {
+	public bool CanExecute(){
 		return true;
 	}
 
-	public virtual void Undo() {
+	public virtual void Undo(){
 	}
 }
 
-public class DiskRotateCmd : DiskCmd {
+public class DiskRotateCmd : DiskCmd
+{
 
-	float rotateAngle = 45.0f;
-	float rotateTime = 1.3f;
+		float rotateAngle = 45.0f;
+		float rotateTime = 1.3f;
 
-	public DiskRotateCmd (AbsDiskSegment aDiskSeg) : base(aDiskSeg) {
-	}
+		public DiskRotateCmd (IDiskSegment aDiskSeg) : base(aDiskSeg)
+		{
+		}
 
-	public DiskRotateCmd (AbsDiskSegment aDiskSeg, float angle, float rotateTime):base(aDiskSeg) {
-		rotateAngle = angle;
-		rotateTime = rotateTime;
-	}
+	public DiskRotateCmd (IDiskSegment aDiskSeg, float angle, float rotateTime):base(aDiskSeg)
+		{
+				rotateAngle = angle;
+				rotateTime = rotateTime;
+		}
 
-	public override void Execute () {
-		if (receiver != null){
-			receiver.Rotate( rotateAngle,rotateTime );
+		public override void Execute ()
+		{
+				if (receiver != null && CanExecute ()) {
+						receiver.Rotate (rotateAngle, rotateTime);
+				}
+		}
+
+		public override void Undo ()
+		{
+				if (receiver != null && CanExecute ()) {
+						receiver.Rotate (-1.0f * rotateAngle, rotateTime);
+				}
+		}
+}
+
+public class MacroDiskRotateCmd : DiskMacroCmd {
+
+	public MacroDiskRotateCmd (ArrayList receivers) : base(receivers) {
+
+		foreach (object obj in receivers){
+			string temp = typeof(IDiskSegment).ToString();
+			if(obj.GetType().GetInterface(temp) != null){
+				cmdGroup.Add(new DiskRotateCmd((IDiskSegment)obj));
+			}
 		}
 	}
 
-	public override void Undo () {
-		if ( receiver != null) {
-			receiver.Rotate( -rotateAngle,rotateTime );
-		}
+	public override void Execute ()
+	{
+		base.Execute();
 	}
+
 }
