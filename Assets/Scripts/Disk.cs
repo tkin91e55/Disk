@@ -53,7 +53,8 @@ public class Disk : MonoBehaviour
 				//}
 		}
 
-
+		void RotateInnerSeg () {
+	}
 
 }
 
@@ -145,8 +146,8 @@ public class DiskController
 
 		Util.Mode<DiskController,State> mMode;
 		int maxHistory = 5;
-		List<DiskCmd> history = new List<DiskCmd> ();
-		Queue<DiskCmd> cmdWait = new Queue<DiskCmd> ();
+		List<ICommand> history = new List<ICommand> ();
+		Queue<ICommand> cmdWait = new Queue<ICommand> ();
 		DiskCmd curCmd;
 
 		/// <summary>
@@ -166,11 +167,17 @@ public class DiskController
 				mMode.Proc ();
 		}
 
-		public void AddCmd (DiskCmd aCmd)
+		public void AddCmd (ICommand aDiskCmd)
 		{
-
-				if (cmdWait.Count <= 5)
+				if (aDiskCmd.GetType ().BaseType != typeof(DiskCmd))
+				if (aDiskCmd.GetType ().BaseType != typeof(DiskMacroCmd)) {
+						Debug.Log ("not a disk command");
+						return;
+				}
+				if (cmdWait.Count <= 5){
 						cmdWait.Enqueue (aCmd);
+			Debug.Log("a cmd added");
+		}
 		}
 
 		void Idle_Init ()
