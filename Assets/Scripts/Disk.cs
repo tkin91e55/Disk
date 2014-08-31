@@ -175,7 +175,7 @@ public class DiskController
 						return;
 				}
 				if (cmdWait.Count <= 5){
-						cmdWait.Enqueue (aCmd);
+			cmdWait.Enqueue (aDiskCmd);
 			Debug.Log("a cmd added");
 		}
 		}
