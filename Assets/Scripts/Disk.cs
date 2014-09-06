@@ -42,6 +42,9 @@ public class Disk : MonoBehaviour
 				if (GUI.Button (new Rect (0, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer")) {
 						RotateOuterSeg ();
 				}
+				if (GUI.Button (new Rect (0, 3 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Undo")) {
+
+				}
 
 		}
 
@@ -67,12 +70,16 @@ public class Disk : MonoBehaviour
 		void SetRotation (int i)
 		{
 				ArrayList dsList = new ArrayList ();
-		foreach (RelativeDiskSegment DS in mRelativeSegments) {
+				foreach (RelativeDiskSegment DS in mRelativeSegments) {
 						if (DS.r == i) {
 								dsList.Add (DS);
 						}
 				}
 				diskController.AddCmd (new MacroDiskRotateCmd (dsList, rotateSound, transform));
+		}
+
+		void Undo ()
+		{
 		}
 
 }
@@ -89,8 +96,9 @@ public class DiskController
 		}
 
 		Util.Mode<DiskController,State> mMode;
-		int maxHistory = 5;
-		List<ICommand> history = new List<ICommand> ();
+		DiskCmdHistory mHistory = new DiskCmdHistory ();
+		//History Enumerator
+		DiskHistoryEnum mHistoryEnum;
 		Queue<ICommand> cmdWait = new Queue<ICommand> ();
 		ICommand curCmd;
 
@@ -101,6 +109,7 @@ public class DiskController
 		{
 				mMode = new Util.Mode<DiskController, State> (this);
 				mMode.Set (State.Idle);
+				mHistoryEnum = mHistory.GetEnumerator ();
 		}
 
 		/// <summary>
@@ -124,11 +133,21 @@ public class DiskController
 				}
 		}
 
+		public void UndoHistory ()
+		{
+		}
+
+		public void RedoHistory ()
+		{
+		}
+
 		void Idle_Proc ()
 		{
 				if (cmdWait.Count > 0) {
 						if (cmdWait.Peek ().CanExecute ()) {
 								curCmd = cmdWait.Peek ();
+				mHistory.AddHistory(curCmd);
+				mHistoryEnum.MoveNext();
 								cmdWait.Dequeue ().Execute ();
 								mMode.Set (State.Operating);
 						}
@@ -149,5 +168,89 @@ public class DiskController
 				curCmd = null;
 				Debug.Log ("set curCmd to null");
 		}
+}
+
+public class DiskCmdHistory : IEnumerable
+{
+		int maxRecord = 15;
+		List<ICommand> mHistory = new List<ICommand> ();
+
+		IEnumerator IEnumerable.GetEnumerator ()
+		{
+				return (IEnumerator)GetEnumerator ();
+		}
+
+		public DiskHistoryEnum GetEnumerator ()
+		{
+				return new DiskHistoryEnum (mHistory);
+		}
+
+		public void AddHistory (ICommand aHistory)
+		{
+				if (mHistory.Count > maxRecord)
+						mHistory.RemoveAt (0);
+
+				mHistory.Add (aHistory);
+		}
+
+	public void RewriteHistory (DiskHistoryEnum enumerator){
+
+		while (enumerator.Index + 1< mHistory.Count)
+			mHistory.RemoveAt(mHistory.Count-1);
+
+		//doing something to make outer enumerator sync at tip and mHistory will then record the new cmd
+	}
+}
+
+public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
+{
+		List<ICommand> mCollections = new List<ICommand> ();
+		int index = -1;
+
+	public int Index {
+		get {
+			return index;
+		}
+	}
+
+		public DiskHistoryEnum (List<ICommand> cmdList)
+		{
+				mCollections = cmdList;
+		}
+
+		public bool MoveNext ()
+		{
+				index ++;
+				return (index < mCollections.Count);
+		}
+
+		public bool MoveBack ()
+		{
+				if (index > -2)
+						index --;
+				return (index > -1);
+		}
+
+		public void Reset ()
+		{
+				index = -1;
+		}
+
+		public ICommand Current {
+				get {
+						try {
+								return mCollections [index];
+						} catch (System.IndexOutOfRangeException) {
+								throw new System.InvalidOperationException ();
+						}
+				}
+		}
+
+		object IEnumerator.Current {
+				get {
+						return Current;
+				}
+		}
+
 }
 

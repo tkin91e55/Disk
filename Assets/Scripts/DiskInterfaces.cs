@@ -20,9 +20,9 @@ public interface IDiskSegment {
 	bool IsBusy{get;}
 }
 
-public interface IRotatableSegment {
+public interface IBackwardEnumerator {
 
-	event EventHandler OnRotateFinish;
+	bool MoveBack();
 }
 
 
