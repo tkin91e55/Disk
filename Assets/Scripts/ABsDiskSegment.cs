@@ -53,48 +53,8 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 	}
 	
 	void OnCompleteOperation () {
-
-		//PublishRotateComplete ();
 		mState = SegState.idle;
 	}
-
-
-	//rotation is a command, should not be delcared like this, it is going to be parallet to reflection
-	/*event EventHandler PostRotateEvent;
-
-	System.Object objectLock = new System.Object();
-
-	event EventHandler IRotatableSegment.OnRotateFinish{
-
-		add
-		{
-			lock (objectLock)
-			{
-				PostRotateEvent += value;
-			}
-		}
-		remove
-		{
-			lock (objectLock)
-			{
-				PostRotateEvent -= value;
-			}
-		}
-
-	}
-
-	void PublishRotateComplete () {
-
-		EventHandler handler = PostRotateEvent;
-		Debug.Log("PublishRotateComplete() called");
-
-		if (handler != null)
-		{
-			Debug.Log("has some event published");
-			handler(this, new EventArgs());
-		}
-
-	}*/
 
 }
 

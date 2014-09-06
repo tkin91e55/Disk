@@ -8,8 +8,8 @@ public class Disk : MonoBehaviour
 		public GameObject theDiskPrefab;
 		AbsDiskSegment[] mSegments;
 		DiskController diskController = new DiskController ();
-		List<DiskCmd> macroRotateCmd = new List<DiskCmd> ();
-		MacroDiskRotateCmd mRcmd;
+		//MacroDiskRotateCmd mRcmd;
+		public AudioClip rotateSound;
 	
 		void Start ()
 		{
@@ -19,16 +19,6 @@ public class Disk : MonoBehaviour
 
 				mSegments = theGO.GetComponentsInChildren<AbsDiskSegment> ();
 
-				ArrayList dsList = new ArrayList ();
-				foreach (AbsDiskSegment DS in mSegments) {
-						if (DS.r == 3) {
-								//Debug.Log ("DS.r = 3");
-								dsList.Add (DS);
-								macroRotateCmd.Add (new DiskRotateCmd (DS));
-						}
-
-				}
-				mRcmd = new MacroDiskRotateCmd (dsList);
 		}
 
 		void Update ()
@@ -39,99 +29,48 @@ public class Disk : MonoBehaviour
 		void OnGUI ()
 		{
 				if (GUI.Button (new Rect (0, 0, Screen.width / 8, Screen.height / 15), "Rotate inner")) {
-
-						mRcmd.Execute ();
+						RotateInnerSeg ();
 				}
 				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate inner revert")) {
-
+			RotateMiddleSeg();
 				}
 				if (GUI.Button (new Rect (0, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer")) {
-						//mDisk.RotateAtR (3, transform);
+			RotateOuterSeg();
 				}
-				//if (GUI.Button (new Rect (0, 3 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "PlaySound")) {
-				//audio.Play();
-				//}
+
 		}
 
-		void RotateInnerSeg () {
-	}
+		void RotateInnerSeg ()
+		{
+				SetRotation (1);
+		}
+
+		void RotateMiddleSeg ()
+		{
+				SetRotation (2);
+		}
+
+		void RotateOuterSeg ()
+		{
+				SetRotation (3);
+		}
+
+		/// <summary>
+		/// This is very private function
+		/// </summary>
+		/// <param name="i">The index.</param>
+		void SetRotation (int i)
+		{
+				ArrayList dsList = new ArrayList ();
+				foreach (AbsDiskSegment DS in mSegments) {
+						if (DS.r == i) {
+								dsList.Add (DS);
+						}
+				}
+				diskController.AddCmd (new MacroDiskRotateCmd (dsList, rotateSound, transform));
+		}
 
 }
-
-/// <summary>
-/// Disk, show how to order commands
-/// </summary>
-//public class Disk
-//{
-//public Disk (AbsDiskSegment[] segments)
-//{
-//}
-	
-/*
-	 * 
-		/// <summary>
-		/// Rotates diskSegments at r ,from 1 to 3.
-		/// </summary>
-		/// <param name="r">The r coordinate, input from 1 to 3.</param>
-		/// <param name="soundSource">Where Sound source should play.</param>
-		public void RotateAtR (int r, Transform soundSource)
-		{
-
-				SegmentInfo[] temp = GetSegmentsR (r);
-				for (int i=0; i<temp.Length; i++) {
-						temp [i].Rotate (45.0f, mRotateSound.length);
-				}
-			
-				if (soundSource != null)
-						AudioSource.PlayClipAtPoint (mRotateSound, soundSource.transform.position);
-
-		}
-
-		public void ReflectAtTheta (int theta, Transform soundSource)
-		{
-			
-		}
-
-		/// <summary>
-		/// Get the disk's segment by relative coordinate
-		/// </summary>
-		/// <returns>the segment with r, theta coor.</returns>
-		/// <param name="r">r in relative coor, but suppose to be same as absolute.</param>
-		/// <param name="theta">theta in relative coor.</param>
-		public DiskSegment GetASegment (int r, int theta)
-		{
-		
-				SegmentInfo temp;
-		
-				foreach (SegmentInfo seg in mSegments) {
-						if (seg.r == r && seg.theta == theta) {
-								temp = seg;
-								return temp.mDiskSegment;
-						}
-				}
-				Debug.LogError ("cannot find the segment");
-				return null;
-		}
-
-
-		SegmentInfo[] GetSegmentsR (int r)
-		{
-				List<SegmentInfo> temp = new List<SegmentInfo> ();
-
-
-				foreach (SegmentInfo seg in mSegments) {
-						if (seg.r == r) {
-								temp.Add (seg);
-						}
-				}
-				return temp.ToArray ();
-		}
-
-		SegmentInfo[] GetSegmentTheta (int theta)
-		{
-				return null;
-		}*/
-//}
 
 /// <summary>
 /// Disk controller, command executer
@@ -148,7 +87,7 @@ public class DiskController
 		int maxHistory = 5;
 		List<ICommand> history = new List<ICommand> ();
 		Queue<ICommand> cmdWait = new Queue<ICommand> ();
-		DiskCmd curCmd;
+		ICommand curCmd;
 
 		/// <summary>
 		/// must be hooked outside since Diskcontroller is not a monobehavior
@@ -174,34 +113,36 @@ public class DiskController
 						Debug.Log ("not a disk command");
 						return;
 				}
-				if (cmdWait.Count <= 5){
-			cmdWait.Enqueue (aDiskCmd);
-			Debug.Log("a cmd added");
-		}
-		}
-
-		void Idle_Init ()
-		{
+				if (cmdWait.Count <= 5) {
+						cmdWait.Enqueue (aDiskCmd);
+						Debug.Log ("a cmd added");
+				}
 		}
 
 		void Idle_Proc ()
 		{
-		}
-
-		void Idle_Term ()
-		{
-		}
-
-		void Operating_Init ()
-		{
+				if (cmdWait.Count > 0) {
+						if (cmdWait.Peek ().CanExecute ()) {
+								curCmd = cmdWait.Peek ();
+								cmdWait.Dequeue ().Execute ();
+								mMode.Set (State.Operating);
+						}
+				}
 		}
 
 		void Operating_Proc ()
 		{
+				if (curCmd != null)
+				if (curCmd.CanExecute ()) {
+						mMode.Set (State.Idle);
+						Debug.Log ("return back to idle state");
+				}
 		}
 
 		void Operating_Term ()
 		{
+				curCmd = null;
+				Debug.Log ("set curCmd to null");
 		}
 }
 

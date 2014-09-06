@@ -346,6 +346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   theDiskPrefab: {fileID: 100010, guid: e7f5b79336ed5dc408ce17b178a23cd2, type: 2}
+  rotateSound: {fileID: 8300000, guid: 4395ef4d0185cd74f8cfaf7205e07c2f, type: 3}
 --- !u!1 &1793491535
 GameObject:
   m_ObjectHideFlags: 0

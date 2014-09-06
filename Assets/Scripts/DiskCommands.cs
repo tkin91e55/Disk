@@ -69,7 +69,18 @@ public abstract class DiskMacroCmd : ICommand {
 	}
 
 	public bool CanExecute(){
-		return true;
+		bool isAllIdle = true;
+
+		foreach(object receiver in mReceivers){
+			string tempName = typeof(IDiskSegment).ToString();
+			if(receiver.GetType().GetInterface(tempName) != null){
+				IDiskSegment tempSeg = (IDiskSegment) receiver;
+				if(tempSeg.IsBusy)
+					isAllIdle = false;
+			}
+		}
+
+		return isAllIdle;
 	}
 
 	public virtual void Undo(){
@@ -109,7 +120,13 @@ public class DiskRotateCmd : DiskCmd
 
 public class MacroDiskRotateCmd : DiskMacroCmd {
 
-	public MacroDiskRotateCmd (ArrayList receivers) : base(receivers) {
+	AudioClip sound;
+	Transform trans;
+
+	public MacroDiskRotateCmd (ArrayList receivers, AudioClip aSound, Transform atrans) : base(receivers) {
+
+		sound = aSound;
+		trans = atrans;
 
 		foreach (object obj in receivers){
 			string temp = typeof(IDiskSegment).ToString();
@@ -122,6 +139,9 @@ public class MacroDiskRotateCmd : DiskMacroCmd {
 	public override void Execute ()
 	{
 		base.Execute();
+		if (sound != null)
+			AudioSource.PlayClipAtPoint (sound, trans.position);
+
 	}
 
 }
