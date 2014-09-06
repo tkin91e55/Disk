@@ -96,18 +96,18 @@ public class RelativeDiskSegment : IDiskSegment {
 
 		//a temporary approach
 		if (angle > 0)
-			relativeR ++;
+			relativeTheta ++;
 		else if (angle < 0)
-			relativeR --;
+			relativeTheta --;
 		else
 			Debug.LogError("zero angle!!?");
 
-		if(relativeR > Rmod)
-			relativeR = 1;
+		if(relativeTheta > Rmod)
+			relativeTheta = 1;
 		else if (relativeR < 1)
-			relativeR = Rmod;
+			relativeTheta = Rmod;
 
-		Debug.Log("relativeR: " + relativeR);
+		Debug.Log("relativeTheta: " + relativeTheta);
 		mSegment.Rotate(angle,time);
 	}
 

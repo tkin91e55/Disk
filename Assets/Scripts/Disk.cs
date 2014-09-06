@@ -7,6 +7,7 @@ public class Disk : MonoBehaviour
 	
 		public GameObject theDiskPrefab;
 		AbsDiskSegment[] mSegments;
+		RelativeDiskSegment[] mRelativeSegments;
 		DiskController diskController = new DiskController ();
 		//MacroDiskRotateCmd mRcmd;
 		public AudioClip rotateSound;
@@ -18,6 +19,10 @@ public class Disk : MonoBehaviour
 				Utility.SetAsChild (gameObject, theGO);
 
 				mSegments = theGO.GetComponentsInChildren<AbsDiskSegment> ();
+				mRelativeSegments = new RelativeDiskSegment[mSegments.Length];
+				for (int i = 0; i < mRelativeSegments.Length; i++) {
+						mRelativeSegments [i] = new RelativeDiskSegment (mSegments [i]);
+				}
 
 		}
 
@@ -32,10 +37,10 @@ public class Disk : MonoBehaviour
 						RotateInnerSeg ();
 				}
 				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate inner revert")) {
-			RotateMiddleSeg();
+						RotateMiddleSeg ();
 				}
 				if (GUI.Button (new Rect (0, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer")) {
-			RotateOuterSeg();
+						RotateOuterSeg ();
 				}
 
 		}
@@ -62,7 +67,7 @@ public class Disk : MonoBehaviour
 		void SetRotation (int i)
 		{
 				ArrayList dsList = new ArrayList ();
-				foreach (AbsDiskSegment DS in mSegments) {
+		foreach (RelativeDiskSegment DS in mRelativeSegments) {
 						if (DS.r == i) {
 								dsList.Add (DS);
 						}
