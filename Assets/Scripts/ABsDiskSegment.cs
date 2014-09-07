@@ -31,14 +31,11 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 			switch (mState){
 			case AbsDiskSegment.SegState.idle:
 				return false;
-				break;
 			case AbsDiskSegment.SegState.busy:
 				return true;
-				break;
 			default:
 				Debug.LogError("strange case for absSeg state");
 				return true;
-				break;
 			}
 		}
 	}
@@ -102,10 +99,10 @@ public class RelativeDiskSegment : IDiskSegment {
 		else
 			Debug.LogError("zero angle!!?");
 
-		if(relativeTheta > Rmod)
+		if(relativeTheta > ThetaMod)
 			relativeTheta = 1;
 		else if (relativeR < 1)
-			relativeTheta = Rmod;
+			relativeTheta = ThetaMod;
 
 		Debug.Log("relativeTheta: " + relativeTheta);
 		mSegment.Rotate(angle,time);

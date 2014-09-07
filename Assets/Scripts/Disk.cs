@@ -23,7 +23,6 @@ public class Disk : MonoBehaviour
 				for (int i = 0; i < mRelativeSegments.Length; i++) {
 						mRelativeSegments [i] = new RelativeDiskSegment (mSegments [i]);
 				}
-
 		}
 
 		void Update ()
@@ -36,7 +35,7 @@ public class Disk : MonoBehaviour
 				if (GUI.Button (new Rect (0, 0, Screen.width / 8, Screen.height / 15), "Rotate inner")) {
 						RotateInnerSeg ();
 				}
-				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate inner revert")) {
+				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate Middle")) {
 						RotateMiddleSeg ();
 				}
 				if (GUI.Button (new Rect (0, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer")) {
@@ -95,12 +94,33 @@ public class DiskController
 				Operating
 		}
 
+		enum CmdOpType
+		{
+				TYPE_NORMAL,
+				TYPE_UNDO,
+				TYPE_REDO
+		}
+
+		class WaitCommand
+		{
+
+				public ICommand cmd;
+				public CmdOpType type;
+
+				public WaitCommand (ICommand aCmd, CmdOpType aType)
+				{
+						cmd = aCmd;
+						type = aType;
+				}
+		}
+
 		Util.Mode<DiskController,State> mMode;
 		DiskCmdHistory mHistory = new DiskCmdHistory ();
 		//History Enumerator
 		DiskHistoryEnum mHistoryEnum;
-		Queue<ICommand> cmdWait = new Queue<ICommand> ();
+		Queue<WaitCommand> cmdWait = new Queue<WaitCommand> ();
 		ICommand curCmd;
+		int maxCmdWait = 5;
 
 		/// <summary>
 		/// must be hooked outside since Diskcontroller is not a monobehavior
@@ -122,15 +142,7 @@ public class DiskController
 
 		public void AddCmd (ICommand aDiskCmd)
 		{
-				if (aDiskCmd.GetType ().BaseType != typeof(DiskCmd))
-				if (aDiskCmd.GetType ().BaseType != typeof(DiskMacroCmd)) {
-						Debug.Log ("not a disk command");
-						return;
-				}
-				if (cmdWait.Count <= 5) {
-						cmdWait.Enqueue (aDiskCmd);
-						Debug.Log ("a cmd added");
-				}
+				CreateWaitCmd (aDiskCmd, CmdOpType.TYPE_NORMAL);
 		}
 
 		public void UndoHistory ()
@@ -141,14 +153,42 @@ public class DiskController
 		{
 		}
 
+		void CreateWaitCmd (ICommand aDiskCmd, CmdOpType atype)
+		{
+
+				if (aDiskCmd.GetType ().BaseType != typeof(DiskCmd))
+				if (aDiskCmd.GetType ().BaseType != typeof(DiskMacroCmd)) {
+						Debug.Log ("not a disk command");
+						return;
+				}
+				if (cmdWait.Count <= maxCmdWait) {
+						cmdWait.Enqueue (new WaitCommand (aDiskCmd, atype));
+						Debug.Log ("a cmd added");
+				}
+		}
+
 		void Idle_Proc ()
 		{
 				if (cmdWait.Count > 0) {
-						if (cmdWait.Peek ().CanExecute ()) {
-								curCmd = cmdWait.Peek ();
-				mHistory.AddHistory(curCmd);
-				mHistoryEnum.MoveNext();
-								cmdWait.Dequeue ().Execute ();
+						if (cmdWait.Peek ().cmd.CanExecute ()) {
+								curCmd = cmdWait.Peek ().cmd;
+
+								switch (cmdWait.Peek ().type) {
+								case CmdOpType.TYPE_NORMAL:
+										mHistory.AddHistory(mHistoryEnum,curCmd);
+										cmdWait.Dequeue ().cmd.Execute ();
+										break;
+								case CmdOpType.TYPE_UNDO:
+										//if(mHistoryEnum.MoveBack())
+										 
+										break;
+								case CmdOpType.TYPE_REDO:
+										break;
+								default:
+										Debug.Log ("unknown type");
+										break;
+								}
+								
 								mMode.Set (State.Operating);
 						}
 				}
@@ -185,21 +225,26 @@ public class DiskCmdHistory : IEnumerable
 				return new DiskHistoryEnum (mHistory);
 		}
 
-		public void AddHistory (ICommand aHistory)
+		public void AddHistory (DiskHistoryEnum enumerator, ICommand aHistory)
 		{
 				if (mHistory.Count > maxRecord)
 						mHistory.RemoveAt (0);
 
 				mHistory.Add (aHistory);
+				enumerator.MoveToTail ();
 		}
 
-	public void RewriteHistory (DiskHistoryEnum enumerator){
+		public void RewriteHistory (DiskHistoryEnum enumerator, ICommand aHistory)
+		{
 
-		while (enumerator.Index + 1< mHistory.Count)
-			mHistory.RemoveAt(mHistory.Count-1);
+				while (enumerator.Index + 1< mHistory.Count) {
+						Debug.Log (string.Format ("enumerator.index: {0}, mHistory.Count: {1}", enumerator.Index, mHistory.Count));
+						mHistory.RemoveAt (mHistory.Count - 1);
+				}
 
-		//doing something to make outer enumerator sync at tip and mHistory will then record the new cmd
-	}
+				AddHistory (enumerator, aHistory);
+
+		}
 }
 
 public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
@@ -207,11 +252,11 @@ public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 		List<ICommand> mCollections = new List<ICommand> ();
 		int index = -1;
 
-	public int Index {
-		get {
-			return index;
+		public int Index {
+				get {
+						return index;
+				}
 		}
-	}
 
 		public DiskHistoryEnum (List<ICommand> cmdList)
 		{
@@ -226,14 +271,23 @@ public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 
 		public bool MoveBack ()
 		{
-				if (index > -2)
-						index --;
+				index --;
 				return (index > -1);
 		}
 
 		public void Reset ()
 		{
 				index = -1;
+		}
+
+		public void MoveToHead ()
+		{
+				index = 0;
+		}
+
+		public void MoveToTail ()
+		{
+				index = mCollections.Count - 1;
 		}
 
 		public ICommand Current {
