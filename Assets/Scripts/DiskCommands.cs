@@ -84,6 +84,13 @@ public abstract class DiskMacroCmd : ICommand {
 	}
 
 	public virtual void Undo(){
+
+		if (cmdGroup != null){
+			foreach ( DiskCmd cmd in cmdGroup){
+				if(cmd.CanExecute())
+					cmd.Undo();
+			}
+		}
 	}
 }
 
@@ -142,6 +149,13 @@ public class MacroDiskRotateCmd : DiskMacroCmd {
 		if (sound != null)
 			AudioSource.PlayClipAtPoint (sound, trans.position);
 
+	}
+
+	public override void Undo ()
+	{
+		base.Undo();
+		if (sound != null)
+			AudioSource.PlayClipAtPoint (sound, trans.position);
 	}
 
 }

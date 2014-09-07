@@ -104,7 +104,7 @@ public class RelativeDiskSegment : IDiskSegment {
 		else if (relativeR < 1)
 			relativeTheta = ThetaMod;
 
-		Debug.Log("relativeTheta: " + relativeTheta);
+		//Debug.Log("relativeTheta: " + relativeTheta);
 		mSegment.Rotate(angle,time);
 	}
 

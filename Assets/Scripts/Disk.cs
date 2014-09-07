@@ -42,7 +42,7 @@ public class Disk : MonoBehaviour
 						RotateOuterSeg ();
 				}
 				if (GUI.Button (new Rect (0, 3 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Undo")) {
-
+						Undo ();
 				}
 
 		}
@@ -62,6 +62,12 @@ public class Disk : MonoBehaviour
 				SetRotation (3);
 		}
 
+		void Undo ()
+		{
+				Debug.Log ("Disk.Undo()");
+				diskController.UndoHistory ();
+		}
+
 		/// <summary>
 		/// This is very private function
 		/// </summary>
@@ -77,9 +83,7 @@ public class Disk : MonoBehaviour
 				diskController.AddCmd (new MacroDiskRotateCmd (dsList, rotateSound, transform));
 		}
 
-		void Undo ()
-		{
-		}
+
 
 }
 
@@ -120,7 +124,7 @@ public class DiskController
 		DiskHistoryEnum mHistoryEnum;
 		Queue<WaitCommand> cmdWait = new Queue<WaitCommand> ();
 		ICommand curCmd;
-		int maxCmdWait = 5;
+		int maxCmdWait = 30;
 
 		/// <summary>
 		/// must be hooked outside since Diskcontroller is not a monobehavior
@@ -147,6 +151,14 @@ public class DiskController
 
 		public void UndoHistory ()
 		{
+				Debug.Log ("controller.UndoHistory() and mHisotryEnum.Index: " + mHistoryEnum.Index);
+				ICommand history = mHistoryEnum.Current;
+				if (mHistoryEnum.MoveBack ()) {
+						Debug.Log ("moveBack()");
+						//it is kind of ugly you really need this non-null check here, since get current is not non null proof
+						if (history != null)
+								CreateWaitCmd (history, CmdOpType.TYPE_UNDO);
+				}
 		}
 
 		public void RedoHistory ()
@@ -156,7 +168,6 @@ public class DiskController
 		void CreateWaitCmd (ICommand aDiskCmd, CmdOpType atype)
 		{
 
-				if (aDiskCmd.GetType ().BaseType != typeof(DiskCmd))
 				if (aDiskCmd.GetType ().BaseType != typeof(DiskMacroCmd)) {
 						Debug.Log ("not a disk command");
 						return;
@@ -175,12 +186,12 @@ public class DiskController
 
 								switch (cmdWait.Peek ().type) {
 								case CmdOpType.TYPE_NORMAL:
-										mHistory.AddHistory(mHistoryEnum,curCmd);
+										mHistory.RewriteHistory (mHistoryEnum, curCmd);
 										cmdWait.Dequeue ().cmd.Execute ();
 										break;
 								case CmdOpType.TYPE_UNDO:
-										//if(mHistoryEnum.MoveBack())
-										 
+										DiskMacroCmd macroCmd = (DiskMacroCmd)cmdWait.Dequeue ().cmd;
+										macroCmd.Undo ();	 
 										break;
 								case CmdOpType.TYPE_REDO:
 										break;
@@ -192,6 +203,15 @@ public class DiskController
 								mMode.Set (State.Operating);
 						}
 				}
+		}
+
+		void Idle_Term ()
+		{
+
+				DiskHistoryEnum iterator = mHistory.GetEnumerator ();
+
+				while (iterator.MoveNext())
+						Debug.Log (iterator.Current.ToString ());
 		}
 
 		void Operating_Proc ()
@@ -231,6 +251,7 @@ public class DiskCmdHistory : IEnumerable
 						mHistory.RemoveAt (0);
 
 				mHistory.Add (aHistory);
+				Debug.Log ("a history item added");
 				enumerator.MoveToTail ();
 		}
 
@@ -266,13 +287,22 @@ public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 		public bool MoveNext ()
 		{
 				index ++;
+
+				if (index > mCollections.Count)
+						index = mCollections.Count;
+
+				//this must not modified
 				return (index < mCollections.Count);
 		}
 
 		public bool MoveBack ()
 		{
 				index --;
-				return (index > -1);
+				
+				if (index < -1)
+						index = -1;
+
+				return (index >= -1);
 		}
 
 		public void Reset ()
@@ -293,7 +323,10 @@ public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 		public ICommand Current {
 				get {
 						try {
-								return mCollections [index];
+								if (index > -1 && index < mCollections.Count)
+										return mCollections [index];
+								else
+										return null;
 						} catch (System.IndexOutOfRangeException) {
 								throw new System.InvalidOperationException ();
 						}
