@@ -9,4 +9,8 @@ Next Things To Do:
 
 31/8/2014:
 (1) update the Disk.simp
-(2) it should be the disk creates cmd objects , and the the diskcontroller to handle the cmds
+(2) it should be the disk creates cmd objects , and the the diskcontroller to handle the cmds (done)
+
+7/9/2014:
+(1) there is problem that index of the diskcontroller iterator is not elegantly mechanized and not supporting the middle cancel function, i.e. when disk order a redo/undo command, index immediately done shifting already, even the disk state is not yet. Sugget using looking for target cmd and enusre the index will only do the shifting after confirm the target cmd will be executed
+

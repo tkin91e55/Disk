@@ -44,6 +44,9 @@ public class Disk : MonoBehaviour
 				if (GUI.Button (new Rect (0, 3 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Undo")) {
 						Undo ();
 				}
+				if (GUI.Button (new Rect (0, 4 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Redo")) {
+						Redo ();
+				}
 
 		}
 
@@ -66,6 +69,12 @@ public class Disk : MonoBehaviour
 		{
 				Debug.Log ("Disk.Undo()");
 				diskController.UndoHistory ();
+		}
+
+		void Redo ()
+		{
+
+				diskController.RedoHistory ();
 		}
 
 		/// <summary>
@@ -151,6 +160,10 @@ public class DiskController
 
 		public void UndoHistory ()
 		{
+		//ugly point due to index handling:
+		if(mHistoryEnum.Index > mHistoryEnum.Count - 1)
+			mHistoryEnum.MoveToTail();
+
 				Debug.Log ("controller.UndoHistory() and mHisotryEnum.Index: " + mHistoryEnum.Index);
 				ICommand history = mHistoryEnum.Current;
 				if (mHistoryEnum.MoveBack ()) {
@@ -163,6 +176,18 @@ public class DiskController
 
 		public void RedoHistory ()
 		{
+				//ugly point due to index handling:
+				if(mHistoryEnum.Index < 0)
+			mHistoryEnum.MoveToHead();
+
+				Debug.Log ("controller.RedoHistory() and mHisotryEnum.Index: " + mHistoryEnum.Index);
+
+				if (mHistoryEnum.MoveNext ()) {
+						Debug.Log ("moveNext()");
+						ICommand history = mHistoryEnum.Current;
+						if (history != null)
+								CreateWaitCmd (history, CmdOpType.TYPE_REDO);
+				}
 		}
 
 		void CreateWaitCmd (ICommand aDiskCmd, CmdOpType atype)
@@ -194,6 +219,8 @@ public class DiskController
 										macroCmd.Undo ();	 
 										break;
 								case CmdOpType.TYPE_REDO:
+										DiskMacroCmd Cmd = (DiskMacroCmd)cmdWait.Dequeue ().cmd;
+										Cmd.Execute ();	
 										break;
 								default:
 										Debug.Log ("unknown type");
@@ -257,6 +284,9 @@ public class DiskCmdHistory : IEnumerable
 
 		public void RewriteHistory (DiskHistoryEnum enumerator, ICommand aHistory)
 		{
+				//suppose enumerator.Index at max is mHistory.Count
+				if (enumerator.Index > mHistory.Count - 1)
+						enumerator.MoveBack ();
 
 				while (enumerator.Index + 1< mHistory.Count) {
 						Debug.Log (string.Format ("enumerator.index: {0}, mHistory.Count: {1}", enumerator.Index, mHistory.Count));
@@ -271,6 +301,7 @@ public class DiskCmdHistory : IEnumerable
 public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 {
 		List<ICommand> mCollections = new List<ICommand> ();
+	//note in this iterator, index is ranged from -1 to mCollections.Count
 		int index = -1;
 
 		public int Index {
@@ -278,6 +309,12 @@ public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 						return index;
 				}
 		}
+
+		public int Count {
+				get{
+					return mCollections.Count;
+				}
+			}
 
 		public DiskHistoryEnum (List<ICommand> cmdList)
 		{
@@ -291,7 +328,6 @@ public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 				if (index > mCollections.Count)
 						index = mCollections.Count;
 
-				//this must not modified
 				return (index < mCollections.Count);
 		}
 
