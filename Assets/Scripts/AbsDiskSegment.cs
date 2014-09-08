@@ -20,18 +20,18 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 	}
 
 	enum SegState {
-		idle=0,
-		busy=1
+		Idle=0,
+		Busy=1
 	} 
 
-	SegState mState = SegState.idle;
+	SegState mState = SegState.Idle;
 
 	public bool IsBusy{
 		get{
 			switch (mState){
-			case AbsDiskSegment.SegState.idle:
+			case AbsDiskSegment.SegState.Idle:
 				return false;
-			case AbsDiskSegment.SegState.busy:
+			case AbsDiskSegment.SegState.Busy:
 				return true;
 			default:
 				Debug.LogError("strange case for absSeg state");
@@ -42,7 +42,7 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 
 	public void Rotate (float angle, float time)
 	{
-		mState = SegState.busy;
+		mState = SegState.Busy;
 		iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", angle * Vector3.up, "easetype", iTween.EaseType.easeInQuad,"oncomplete","OnCompleteOperation"));
 	}
 	
@@ -50,7 +50,7 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 	}
 	
 	void OnCompleteOperation () {
-		mState = SegState.idle;
+		mState = SegState.Idle;
 	}
 
 }
