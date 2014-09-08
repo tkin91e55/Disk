@@ -160,14 +160,15 @@ public class DiskController
 
 		public void UndoHistory ()
 		{
-		//ugly point due to index handling:
-		if(mHistoryEnum.Index > mHistoryEnum.Count - 1)
-			mHistoryEnum.MoveToTail();
+				//ugly point due to index handling:
+				Debug.Log ("(1)controller.UndoHistory() and mHisotryEnum.Index: " + mHistoryEnum.Index);
+				if (mHistoryEnum.Index > mHistoryEnum.Count - 1)
+						mHistoryEnum.MoveToTail ();
 
-				Debug.Log ("controller.UndoHistory() and mHisotryEnum.Index: " + mHistoryEnum.Index);
-				ICommand history = mHistoryEnum.Current;
-				if (mHistoryEnum.MoveBack ()) {
+				Debug.Log ("(2)controller.UndoHistory() and mHisotryEnum.Index: " + mHistoryEnum.Index);
+				if (mHistoryEnum.HasPrev ()) {
 						Debug.Log ("moveBack()");
+						ICommand history = mHistoryEnum.Current;
 						//it is kind of ugly you really need this non-null check here, since get current is not non null proof
 						if (history != null)
 								CreateWaitCmd (history, CmdOpType.TYPE_UNDO);
@@ -177,12 +178,13 @@ public class DiskController
 		public void RedoHistory ()
 		{
 				//ugly point due to index handling:
-				if(mHistoryEnum.Index < 0)
-			mHistoryEnum.MoveToHead();
+				Debug.Log ("(1)controller.RedoHistory() and mHisotryEnum.Index: " + mHistoryEnum.Index);
+				if (mHistoryEnum.Index < 0)
+						mHistoryEnum.MoveToHead ();
 
-				Debug.Log ("controller.RedoHistory() and mHisotryEnum.Index: " + mHistoryEnum.Index);
+				Debug.Log ("(2)controller.RedoHistory() and mHisotryEnum.Index: " + mHistoryEnum.Index);
 
-				if (mHistoryEnum.MoveNext ()) {
+				if (mHistoryEnum.HasNext ()) {
 						Debug.Log ("moveNext()");
 						ICommand history = mHistoryEnum.Current;
 						if (history != null)
@@ -215,6 +217,7 @@ public class DiskController
 										cmdWait.Dequeue ().cmd.Execute ();
 										break;
 								case CmdOpType.TYPE_UNDO:
+										mHistoryEnum.MoveBack ();
 										DiskMacroCmd macroCmd = (DiskMacroCmd)cmdWait.Dequeue ().cmd;
 										macroCmd.Undo ();	 
 										break;
@@ -230,15 +233,6 @@ public class DiskController
 								mMode.Set (State.Operating);
 						}
 				}
-		}
-
-		void Idle_Term ()
-		{
-
-				DiskHistoryEnum iterator = mHistory.GetEnumerator ();
-
-				while (iterator.MoveNext())
-						Debug.Log (iterator.Current.ToString ());
 		}
 
 		void Operating_Proc ()
@@ -301,7 +295,7 @@ public class DiskCmdHistory : IEnumerable
 public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 {
 		List<ICommand> mCollections = new List<ICommand> ();
-	//note in this iterator, index is ranged from -1 to mCollections.Count
+		//note in this iterator, index is ranged from -1 to mCollections.Count
 		int index = -1;
 
 		public int Index {
@@ -311,10 +305,10 @@ public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 		}
 
 		public int Count {
-				get{
-					return mCollections.Count;
+				get {
+						return mCollections.Count;
 				}
-			}
+		}
 
 		public DiskHistoryEnum (List<ICommand> cmdList)
 		{
@@ -331,6 +325,12 @@ public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 				return (index < mCollections.Count);
 		}
 
+		public bool HasNext ()
+		{
+
+				return (index < mCollections.Count);
+		}
+
 		public bool MoveBack ()
 		{
 				index --;
@@ -339,6 +339,12 @@ public class DiskHistoryEnum : IEnumerator, IBackwardEnumerator
 						index = -1;
 
 				return (index >= -1);
+		}
+
+		public bool HasPrev ()
+		{
+
+				return (index > -1);
 		}
 
 		public void Reset ()
