@@ -47,11 +47,28 @@ public class Disk : MonoBehaviour
 				if (GUI.Button (new Rect (0, 4 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Redo")) {
 						Redo ();
 				}
-		if (GUI.Button (new Rect (0, 8 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Clear")) {
-			diskController.CancelBufferCmd();
+				if (GUI.Button (new Rect (0, 8 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Clear")) {
+						diskController.CancelBufferCmd ();
+				}
+				if (GUI.Button (new Rect (Screen.width - Screen.width / 8, 0, Screen.width / 8, Screen.height / 15), "Reflect 1")) {
+			test();
+				}
 		}
 
+	void test() {
+		ArrayList dsList = new ArrayList ();
+		foreach (RelativeDiskSegment DS in mRelativeSegments) {
+			if (DS.theta == 1 || DS.theta == 5) {
+				dsList.Add (DS);
+			}
 		}
+
+		GameObject reflectAxes = new GameObject();
+		reflectAxes.name = "reflectAxes";
+		GameObject aSeg = (GameObject) mSegments[0].gameObject;
+		reflectAxes.transform.RotateAround(aSeg.transform.position,Vector3.up,22.5f);
+		//GameObject handler = (GameObject) Instantiate(reflectAxe,aSeg.transform.position,Quaternion.identity);
+	}
 
 		void RotateInnerSeg ()
 		{

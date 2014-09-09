@@ -125,6 +125,13 @@ public class DiskRotateCmd : DiskCmd
 		}
 }
 
+public class DiskReflectCmd : DiskCmd{
+
+	public DiskReflectCmd (IDiskSegment aDiskSeg) : base(aDiskSeg){
+	}
+
+}
+
 public class MacroDiskRotateCmd : DiskMacroCmd {
 
 	AudioClip sound;

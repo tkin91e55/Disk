@@ -47,6 +47,45 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 	}
 	
 	public void Reflect () {
+
+		if(theta == 1 || theta == 5){
+
+			GameObject reflectAxes = new GameObject();
+			reflectAxes.name = "reflectAxes";
+			reflectAxes.transform.RotateAround(transform.position,Vector3.up,22.5f);
+
+			GameObject theAxes = GameObject.Find("reflectAxes");
+			if (theAxes != null)
+				Debug.Log("theAxes is not null");
+			else
+				Debug.Log("theAxes is null");
+
+
+			//iTween.RotateAdd(gameObject,iTween.Hash("time",2.0f,"amount", -180.0f * reflectAxes.transform.right,"easetype",iTween.EaseType.linear));
+			//iTween.RotateAdd(gameObject,iTween.Hash("time",2.0f,"amount", 180.0f * reflectAxes.transform.forward,"easetype",iTween.EaseType.linear));
+			//iTween.RotateAdd(gameObject,iTween.Hash("time",2.0f,"amount", -180.0f * reflectAxes.transform.right,"easetype",iTween.EaseType.linear));
+			//transform.RotateAround(transform.position,reflectAxes.transform.forward,180.0f);
+			StartCoroutine(Reflection(theAxes));
+		}
+
+	}
+
+	IEnumerator Reflection( GameObject axes){
+	
+		if(axes != null)
+		while(true){
+		//transform.RotateAround(transform.position,axes.transform.forward, 45.0f * Time.deltaTime);
+		transform.RotateAround(transform.position,axes.transform.right, -45.0f * Time.deltaTime);
+			yield return null;
+		}
+	}
+
+	void OnGUI () {
+
+		if(theta == 1 || theta == 5)
+		if (GUI.Button (new Rect (Screen.width - Screen.width / 8, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Reflect self")) {
+			Reflect();
+		}
 	}
 	
 	void OnCompleteOperation () {
@@ -106,6 +145,12 @@ public class RelativeDiskSegment : IDiskSegment {
 
 		//Debug.Log("relativeTheta: " + relativeTheta);
 		mSegment.Rotate(angle,time);
+	}
+
+	public void Relfect () {
+
+		if(relativeTheta == 1 || relativeTheta == 5 )
+		mSegment.Reflect();
 	}
 
 }
