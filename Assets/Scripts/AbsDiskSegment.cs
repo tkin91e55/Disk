@@ -52,7 +52,7 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 
 			GameObject reflectAxes = new GameObject();
 			reflectAxes.name = "reflectAxes";
-			reflectAxes.transform.RotateAround(transform.position,Vector3.up,22.5f);
+			reflectAxes.transform.RotateAround(transform.position,Vector3.up,45.0f);
 
 			GameObject theAxes = GameObject.Find("reflectAxes");
 			if (theAxes != null)
@@ -60,33 +60,16 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 			else
 				Debug.Log("theAxes is null");
 
+			Utility.SetAsChild(gameObject.transform.parent.gameObject,theAxes);
+			Utility.SetAsChild(theAxes,gameObject);
 
-			//iTween.RotateAdd(gameObject,iTween.Hash("time",2.0f,"amount", -180.0f * reflectAxes.transform.right,"easetype",iTween.EaseType.linear));
-			//iTween.RotateAdd(gameObject,iTween.Hash("time",2.0f,"amount", 180.0f * reflectAxes.transform.forward,"easetype",iTween.EaseType.linear));
-			//iTween.RotateAdd(gameObject,iTween.Hash("time",2.0f,"amount", -180.0f * reflectAxes.transform.right,"easetype",iTween.EaseType.linear));
-			//transform.RotateAround(transform.position,reflectAxes.transform.forward,180.0f);
-			StartCoroutine(Reflection(theAxes));
+			Vector3 direc = reflectAxes.transform.TransformDirection(reflectAxes.transform.forward);
+			Vector3 direc2 = transform.TransformDirection(transform.right);
+			iTween.RotateAdd(theAxes,iTween.Hash("time",2.0f,"amount", -180.0f * direc,"easetype",iTween.EaseType.linear));
+			iTween.RotateAdd(gameObject,iTween.Hash("time",2.0f,"amount", 180.0f * direc2,"easetype",iTween.EaseType.linear));
 
-			Vector3 direc = transform.TransformDirection(transform.right);
-
-			//iTween.RotateAdd(gameObject,iTween.Hash("time",2.0f,"x", 180,"easetype",iTween.EaseType.linear));
 		}
 
-	}
-
-	IEnumerator Reflection( GameObject axes){
-	
-		float counter = 0.0f;
-		if(axes != null)
-		while(true){
-		//transform.RotateAround(transform.position,axes.transform.forward, 45.0f * Time.deltaTime);
-		transform.RotateAround(transform.forward, Time.deltaTime);
-			transform.RotateAround(transform.right, Time.deltaTime);
-			counter += Time.deltaTime;
-			if(counter >= 2.0f)
-				this.StopAllCoroutines();
-			yield return null;
-		}
 	}
 
 	void OnGUI () {
