@@ -66,16 +66,25 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 			//iTween.RotateAdd(gameObject,iTween.Hash("time",2.0f,"amount", -180.0f * reflectAxes.transform.right,"easetype",iTween.EaseType.linear));
 			//transform.RotateAround(transform.position,reflectAxes.transform.forward,180.0f);
 			StartCoroutine(Reflection(theAxes));
+
+			Vector3 direc = transform.TransformDirection(transform.right);
+
+			//iTween.RotateAdd(gameObject,iTween.Hash("time",2.0f,"x", 180,"easetype",iTween.EaseType.linear));
 		}
 
 	}
 
 	IEnumerator Reflection( GameObject axes){
 	
+		float counter = 0.0f;
 		if(axes != null)
 		while(true){
 		//transform.RotateAround(transform.position,axes.transform.forward, 45.0f * Time.deltaTime);
-		transform.RotateAround(transform.position,axes.transform.right, -45.0f * Time.deltaTime);
+		transform.RotateAround(transform.forward, Time.deltaTime);
+			transform.RotateAround(transform.right, Time.deltaTime);
+			counter += Time.deltaTime;
+			if(counter >= 2.0f)
+				this.StopAllCoroutines();
 			yield return null;
 		}
 	}
@@ -149,8 +158,8 @@ public class RelativeDiskSegment : IDiskSegment {
 
 	public void Relfect () {
 
-		if(relativeTheta == 1 || relativeTheta == 5 )
-		mSegment.Reflect();
+		//if(relativeTheta == 1 || relativeTheta == 5 )
+		//mSegment.Reflect();
 	}
 
 }
