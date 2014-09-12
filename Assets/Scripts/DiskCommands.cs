@@ -126,8 +126,27 @@ public class DiskRotateCmd : DiskCmd
 }
 
 public class DiskReflectCmd : DiskCmd{
+	
+	float rotationTime = 2.0f;
 
 	public DiskReflectCmd (IDiskSegment aDiskSeg) : base(aDiskSeg){
+	}
+
+	public DiskReflectCmd (IDiskSegment aDiskSeg, float arotateTime):base(aDiskSeg)
+	{
+		rotationTime = arotateTime;
+		}
+
+	public override void Execute (){
+		if (receiver != null && CanExecute ()) {
+			receiver.Reflect(0.0f,rotationTime);
+				}
+		}
+
+	public override void Undo (){
+		if (receiver != null && CanExecute ()) {
+			receiver.Reflect(0.0f,rotationTime);
+		}
 	}
 
 }
@@ -164,5 +183,30 @@ public class MacroDiskRotateCmd : DiskMacroCmd {
 		if (sound != null)
 			AudioSource.PlayClipAtPoint (sound, trans.position);
 	}
+
+}
+
+public class MacroDiskReflectCmd : DiskMacroCmd {
+
+	public MacroDiskReflectCmd (ArrayList receivers) : base(receivers) {
+		
+		foreach (object obj in receivers){
+			string temp = typeof(IDiskSegment).ToString();
+			if(obj.GetType().GetInterface(temp) != null){
+				cmdGroup.Add(new DiskReflectCmd((IDiskSegment)obj));
+			}
+		}
+	}
+
+	public override void Execute ()
+	{
+		base.Execute();
+	}
+	
+	public override void Undo ()
+	{
+		base.Undo();
+	}
+
 
 }
