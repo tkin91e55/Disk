@@ -1,14 +1,6 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\AbsDiskSegment.cs">
-    <Files>
-      <File FileName="Assets\Scripts\AbsDiskSegment.cs" Line="73" Column="3" />
-      <File FileName="Assets\Scripts\Disk.cs" Line="63" Column="5" />
-      <File FileName="Assets\Scripts\DiskInterfaces.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\DiskController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\DiskCommands.cs" Line="1" Column="1" />
-    </Files>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

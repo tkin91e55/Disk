@@ -21,8 +21,8 @@ public static class Utility  {
 		}
 	}
 
+	//this function doesn't work for swapping a direct parent-child relation
 	public static void SetAsChild (GameObject parent, GameObject go) {
-
 		go.transform.parent = parent.transform;
 	}
 }
