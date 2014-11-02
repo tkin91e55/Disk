@@ -1,13 +1,13 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{380DBC8D-9D2C-8A17-F6EB-B0B2C62D3E85}") = "Disk", "Assembly-CSharp-firstpass.csproj", "{291627DB-41E2-EB83-0797-EF07460318E1}"
+Project("{380DBC8D-9D2C-8A17-F6EB-B0B2C62D3E85}") = "Disk", "Assembly-CSharp-firstpass-vs.csproj", "{291627DB-41E2-EB83-0797-EF07460318E1}"
 EndProject
-Project("{380DBC8D-9D2C-8A17-F6EB-B0B2C62D3E85}") = "Disk", "Assembly-CSharp.csproj", "{534DE343-33B5-735E-E64B-9E0C8A4AFD29}"
+Project("{380DBC8D-9D2C-8A17-F6EB-B0B2C62D3E85}") = "Disk", "Assembly-CSharp-vs.csproj", "{534DE343-33B5-735E-E64B-9E0C8A4AFD29}"
 EndProject
-Project("{380DBC8D-9D2C-8A17-F6EB-B0B2C62D3E85}") = "Disk", "Assembly-CSharp-Editor-firstpass.csproj", "{7EB381E7-68B6-49AB-060A-0C40DF7F3841}"
+Project("{380DBC8D-9D2C-8A17-F6EB-B0B2C62D3E85}") = "Disk", "Assembly-CSharp-Editor-firstpass-vs.csproj", "{7EB381E7-68B6-49AB-060A-0C40DF7F3841}"
 EndProject
-Project("{380DBC8D-9D2C-8A17-F6EB-B0B2C62D3E85}") = "Disk", "Assembly-CSharp-Editor.csproj", "{AD8B2C67-560C-1A0E-9EA4-3B6C35DFEDB9}"
+Project("{380DBC8D-9D2C-8A17-F6EB-B0B2C62D3E85}") = "Disk", "Assembly-CSharp-Editor-vs.csproj", "{AD8B2C67-560C-1A0E-9EA4-3B6C35DFEDB9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,7 +35,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																																																					GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																																							GlobalSection(MonoDevelopProperties) = preSolution
 =======
 																																																																																	GlobalSection(MonoDevelopProperties) = preSolution
 >>>>>>> a39614beab0dfaba62ceb3da90090c5761a8f36d
