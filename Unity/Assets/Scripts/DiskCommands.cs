@@ -127,25 +127,25 @@ public class DiskRotateCmd : DiskCmd
 
 public class DiskReflectCmd : DiskCmd{
 	
-	float rotationTime = 2.0f;
+	float reflectTime = 2.0f;
 
 	public DiskReflectCmd (IDiskSegment aDiskSeg) : base(aDiskSeg){
 	}
 
 	public DiskReflectCmd (IDiskSegment aDiskSeg, float arotateTime):base(aDiskSeg)
 	{
-		rotationTime = arotateTime;
+		reflectTime = arotateTime;
 		}
 
 	public override void Execute (){
 		if (receiver != null && CanExecute ()) {
-			receiver.Reflect(0.0f,rotationTime);
+			receiver.Reflect(0.0f,reflectTime);
 				}
 		}
 
 	public override void Undo (){
 		if (receiver != null && CanExecute ()) {
-			receiver.Reflect(0.0f,rotationTime);
+			receiver.Reflect(0.0f,reflectTime);
 		}
 	}
 
