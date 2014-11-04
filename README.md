@@ -5,6 +5,7 @@ Known issues:
 (3) (Solved) Need to have back side of the disk, use CircularDiskOutput.blend in DiskUV to modify
 (4) Need to add state machine to control the flow of operation, mixing animation and sound properly
 (5) Need to fix the inclined reflection problem, maybe even rotation.
+(6) Need to fix the insynchronized problem between ordering cmd and executing cmd, for example: asking theta = 1 segs to reflect, but too many waited cmds and later on to execute, the order of theta = 1 segs already have theta = 2.
 
 Next Things To Do:
 
