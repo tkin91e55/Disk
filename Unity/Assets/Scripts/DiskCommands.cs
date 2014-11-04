@@ -54,7 +54,6 @@ public abstract class DiskMacroCmd : ICommand {
 	protected List<DiskCmd> cmdGroup = new List<DiskCmd>();
 
 	public DiskMacroCmd (ArrayList receivers)  {
-		
 		mReceivers = receivers;
 	}
 
@@ -188,8 +187,7 @@ public class MacroDiskRotateCmd : DiskMacroCmd {
 
 public class MacroDiskReflectCmd : DiskMacroCmd {
 
-	public MacroDiskReflectCmd (ArrayList receivers) : base(receivers) {
-		
+	public MacroDiskReflectCmd (ArrayList receivers) : base(receivers) {	
 		foreach (object obj in receivers){
 			string temp = typeof(IDiskSegment).ToString();
 			if(obj.GetType().GetInterface(temp) != null){

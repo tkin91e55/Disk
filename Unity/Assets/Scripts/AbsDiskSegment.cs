@@ -69,10 +69,8 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 				Utility.SetAsChild (gameObject.transform.parent.gameObject, theAxes);
 				Utility.SetAsChild (theAxes, gameObject);
 
-				Vector3 direc = reflectAxes.transform.TransformDirection (reflectAxes.transform.forward);
-				Vector3 direc2 = transform.TransformDirection (transform.right);
-				iTween.RotateAdd (theAxes, iTween.Hash ("time", time, "amount", -180.0f * direc, "easetype", iTween.EaseType.linear));
-				iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", 180.0f * direc2, "easetype", iTween.EaseType.linear, "oncomplete", "OnCompleteReflect", "oncompleteparams", param));
+				iTween.RotateAdd (theAxes, iTween.Hash ("time", time, "amount", -180.0f * Vector3.right, "easetype", iTween.EaseType.linear));
+				iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", 180.0f * Vector3.forward, "easetype", iTween.EaseType.linear, "oncomplete", "OnCompleteReflect", "oncompleteparams", param));
 
 		}
 

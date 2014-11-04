@@ -51,10 +51,31 @@ public class Disk : MonoBehaviour
 						diskController.CancelBufferCmd ();
 				}
 				if (GUI.Button (new Rect (Screen.width - Screen.width / 8, 0, Screen.width / 8, Screen.height / 15), "Reflect 1")) {
-			SetReflection(1);
+						SetReflection (1);
+				}
+				if (GUI.Button (new Rect (Screen.width - Screen.width / 8, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Reflect 2")) {
+						SetReflection (2);
+				}
+				if (GUI.Button (new Rect (Screen.width - Screen.width / 8, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Reflect 3")) {
+						SetReflection (3);
+				}
+				if (GUI.Button (new Rect (Screen.width - Screen.width / 8, 3 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Reflect 4")) {
+						SetReflection (4);
+				}
+				if (GUI.Button (new Rect (Screen.width - Screen.width / 8, 4 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Reflect 5")) {
+						SetReflection (5);
+				}
+				if (GUI.Button (new Rect (Screen.width - Screen.width / 8, 5 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Reflect 6")) {
+						SetReflection (6);
+				}
+				if (GUI.Button (new Rect (Screen.width - Screen.width / 8, 6 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Reflect 7")) {
+						SetReflection (7);
+				}
+				if (GUI.Button (new Rect (Screen.width - Screen.width / 8, 7 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Reflect 8")) {
+						SetReflection (8);
 				}
 		}
-
+	
 		void RotateInnerSeg ()
 		{
 				SetRotation (1);
@@ -78,7 +99,6 @@ public class Disk : MonoBehaviour
 
 		void Redo ()
 		{
-
 				diskController.RedoHistory ();
 		}
 
@@ -97,20 +117,20 @@ public class Disk : MonoBehaviour
 				diskController.AddCmd (new MacroDiskRotateCmd (dsList, rotateSound, transform));
 		}
 
-		void SetReflection (int i){
+		void SetReflection (int i)
+		{
+				int conjugateI = DiskUtility.GetConjugateTheta (i, mRelativeSegments [0].ThetaMod);
 
-		int conjugateI = DiskUtility.GetConjugateTheta (i,mRelativeSegments[0].ThetaMod);
-
-		ArrayList dsList = new ArrayList ();
-		foreach (RelativeDiskSegment DS in mRelativeSegments) {
-			if (DS.theta == i) {
-				dsList.Add (DS);
-			}
-			if(DS.theta == conjugateI)
-				dsList.Add(DS);
+				ArrayList dsList = new ArrayList ();
+				foreach (RelativeDiskSegment DS in mRelativeSegments) {
+						if (DS.theta == i) {
+								dsList.Add (DS);
+						}
+						if (DS.theta == conjugateI)
+								dsList.Add (DS);
+				}
+				diskController.AddCmd (new MacroDiskReflectCmd (dsList));
 		}
-		diskController.AddCmd (new MacroDiskReflectCmd (dsList));
-	}
 
 }
 
