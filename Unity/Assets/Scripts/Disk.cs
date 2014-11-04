@@ -99,7 +99,7 @@ public class Disk : MonoBehaviour
 
 		void SetReflection (int i){
 
-		int conjugateI = RelativeDiskSegment.GetConjugateTheta (i);
+		int conjugateI = DiskUtility.GetConjugateTheta (i,mRelativeSegments[0].ThetaMod);
 
 		ArrayList dsList = new ArrayList ();
 		foreach (RelativeDiskSegment DS in mRelativeSegments) {

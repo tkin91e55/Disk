@@ -5,7 +5,6 @@ using System;
 //this class need to inherit from monobehaviour and becomes an individual script to make itween callbacks work
 public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 {
-	
 		/// <summary>
 		/// x is r, y is theta 	
 		/// </summary>
@@ -40,41 +39,50 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 						}
 				}
 		}
+	
+		void Awake ()
+		{
+				Normalize (-1);
+		}
 
 		public void Rotate (float angle, float time)
 		{
 				mState = SegState.Busy;
-		iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", angle * Vector3.up, "easetype", iTween.EaseType.easeInQuad, "oncomplete", "OnCompleteOperation"));
+				iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", angle * Vector3.up, "easetype", iTween.EaseType.easeInQuad, "oncomplete", "OnCompleteOperation"));
+		}
+
+		public void Reflect (float AxesAngle, float time)
+		{
 		}
 	
-		public void Reflect (float AxesAngle, float time)
+		public void DoReflect (float AxesAngle, float time, int relativeTheta)
 		{
 				mState = SegState.Busy;
 				GameObject reflectAxes = new GameObject ();
-				GOpair pair = new GOpair (reflectAxes, this.gameObject);
+				OnReflectParam param = new OnReflectParam (reflectAxes, this.gameObject, relativeTheta);
 
-				reflectAxes.name = "reflectAxes"+AxesAngle.ToString()+"_"+r.ToString();
-				reflectAxes.transform.RotateAround (transform.position, Vector3.up, (float) AxesAngle);
+				reflectAxes.name = "reflectAxes" + AxesAngle.ToString () + "_" + r.ToString ();
+				reflectAxes.transform.RotateAround (transform.position, Vector3.up, (float)AxesAngle);
 
-		GameObject theAxes = GameObject.Find ("reflectAxes"+AxesAngle.ToString()+"_"+r.ToString());
+				GameObject theAxes = GameObject.Find ("reflectAxes" + AxesAngle.ToString () + "_" + r.ToString ());
 
 				Utility.SetAsChild (gameObject.transform.parent.gameObject, theAxes);
 				Utility.SetAsChild (theAxes, gameObject);
 
 				Vector3 direc = reflectAxes.transform.TransformDirection (reflectAxes.transform.forward);
 				Vector3 direc2 = transform.TransformDirection (transform.right);
-		iTween.RotateAdd (theAxes, iTween.Hash ("time", time, "amount", -180.0f * direc, "easetype", iTween.EaseType.linear));
-		iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", 180.0f * direc2, "easetype", iTween.EaseType.linear, "oncomplete", "OnCompleteReflect", "oncompleteparams", pair));
+				iTween.RotateAdd (theAxes, iTween.Hash ("time", time, "amount", -180.0f * direc, "easetype", iTween.EaseType.linear));
+				iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", 180.0f * direc2, "easetype", iTween.EaseType.linear, "oncomplete", "OnCompleteReflect", "oncompleteparams", param));
 
 		}
 
-		void OnCompleteReflect (GOpair pair)
+		void OnCompleteReflect (OnReflectParam param)
 		{
-		if (pair != null) {
-						Utility.SetAsChild (pair.axes.transform.parent.gameObject, pair.go);
-						Destroy (pair.axes);
+				if (param != null) {
+						Utility.SetAsChild (param.axes.transform.parent.gameObject, param.go);
+						Destroy (param.axes);
 				}
-
+				Normalize (param.theta);
 				OnCompleteOperation ();
 		}
 
@@ -83,15 +91,32 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 				mState = SegState.Idle;
 		}
 
-		class GOpair
+		void Normalize (int angle = -1)
+		{
+				transform.position = Vector3.zero;
+				transform.localScale = Vector3.one;
+				int targetY = -1;
+
+				if (angle == -1)
+						targetY = DiskUtility.GetDegreeTheta (theta, 8); //8 here should be temporary
+				else
+						targetY = DiskUtility.GetDegreeTheta (angle, 8);
+
+				Quaternion target = Quaternion.Euler (0, targetY, 0);
+				transform.rotation = Quaternion.Slerp (transform.rotation, target, 1);
+		}
+
+		class OnReflectParam
 		{
 				public GameObject axes;
 				public GameObject go;
+				public int theta;
 
-				public GOpair (GameObject aAxes, GameObject aGo)
+				public OnReflectParam (GameObject aAxes, GameObject aGo, int angle)
 				{
 						axes = aAxes;
 						go = aGo;
+						theta = angle;
 				}
 		}
 
@@ -103,8 +128,8 @@ public class RelativeDiskSegment : IDiskSegment
 		AbsDiskSegment mSegment;
 		int relativeR;
 		int relativeTheta;
-		static int Rmod = 3;
-		static int ThetaMod = 8;
+		public int Rmod = 3;
+		public int ThetaMod = 8;
 
 		public int r {
 				get {
@@ -113,14 +138,12 @@ public class RelativeDiskSegment : IDiskSegment
 		}
 
 		public int theta {
-
 				get {
 						return relativeTheta;
 				}
 		}
 
 		public bool IsBusy {
-
 				get {
 						return mSegment.IsBusy;
 				}
@@ -152,27 +175,17 @@ public class RelativeDiskSegment : IDiskSegment
 				mSegment.Rotate (angle, time);
 		}
 
-	public void Reflect (float AxesAngle, float time){
+		public void Reflect (float AxesAngle, float time)
+		{
+				float axesAngle = 360.0f / (float)ThetaMod;
 
-		float axesAngle = 360.0f/(float)ThetaMod;
+				axesAngle *= (float)relativeTheta;
 
-		axesAngle *= (float)relativeTheta;
-
-		relativeTheta = GetConjugateTheta (relativeTheta);
+				relativeTheta = DiskUtility.GetConjugateTheta (relativeTheta, ThetaMod);
 		
-		Debug.Log ("RelativeDS.Reflect, aTheta: " + relativeTheta + " and axesAngle: " + axesAngle);
-		mSegment.Reflect(axesAngle,time);
-
-	}
-
-	public static int GetConjugateTheta (int i){
-		i += ThetaMod / 2;
-		
-		if (i > ThetaMod)
-			i -= ThetaMod;
-
-		return i;
-	}
-
+				Debug.Log ("RelativeDS.Reflect, aTheta: " + relativeTheta + " and axesAngle: " + axesAngle);
+				mSegment.DoReflect (axesAngle, time, relativeTheta);
+		}
+	
 }
 
