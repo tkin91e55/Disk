@@ -16,7 +16,7 @@ public interface IDiskSegment {
 	int r{get;}
 	int theta{get;}
 	void Rotate (float angle, float time);
-	void Reflect (float AxesAngle, float time);
+	void Reflect (float AxesAngle, float time,int isConjugate = -1);
 	bool IsBusy{get;}
 }
 

@@ -51,11 +51,11 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 				iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", angle * Vector3.up, "easetype", iTween.EaseType.easeInQuad, "oncomplete", "OnCompleteOperation"));
 		}
 
-		public void Reflect (float AxesAngle, float time)
+	public void Reflect (float AxesAngle, float time, int isConjugate = -1)
 		{
 		}
 	
-		public void DoReflect (float AxesAngle, float time, int relativeTheta)
+		public void DoReflect (float AxesAngle, float time, int relativeTheta,int isConjugate = -1 )
 		{
 				mState = SegState.Busy;
 				GameObject reflectAxes = new GameObject ();
@@ -69,7 +69,7 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 				Utility.SetAsChild (gameObject.transform.parent.gameObject, theAxes);
 				Utility.SetAsChild (theAxes, gameObject);
 
-				iTween.RotateAdd (theAxes, iTween.Hash ("time", time, "amount", -180.0f * Vector3.right, "easetype", iTween.EaseType.linear));
+				iTween.RotateAdd (theAxes, iTween.Hash ("time", time, "amount", isConjugate*180.0f * Vector3.right, "easetype", iTween.EaseType.linear));
 				iTween.RotateAdd (gameObject, iTween.Hash ("time", time, "amount", 180.0f * Vector3.forward, "easetype", iTween.EaseType.linear, "oncomplete", "OnCompleteReflect", "oncompleteparams", param));
 
 		}
@@ -168,21 +168,18 @@ public class RelativeDiskSegment : IDiskSegment
 						relativeTheta = 1;
 				else if (relativeR < 1)
 						relativeTheta = ThetaMod;
-
+		 
 				//Debug.Log("relativeTheta: " + relativeTheta);
 				mSegment.Rotate (angle, time);
 		}
 
-		public void Reflect (float AxesAngle, float time)
+		public void Reflect (float AxesAngle, float time, int isConjugate)
 		{
 				float axesAngle = 360.0f / (float)ThetaMod;
 
 				axesAngle *= (float)relativeTheta;
-
 				relativeTheta = DiskUtility.GetConjugateTheta (relativeTheta, ThetaMod);
-		
-				Debug.Log ("RelativeDS.Reflect, aTheta: " + relativeTheta + " and axesAngle: " + axesAngle);
-				mSegment.DoReflect (axesAngle, time, relativeTheta);
+				mSegment.DoReflect (axesAngle, time, relativeTheta,isConjugate);
 		}
 	
 }

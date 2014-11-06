@@ -92,15 +92,12 @@ public class DiskController
 	}
 
 	public void CancelBufferCmd () {
-
 		cmdWait.Clear();
 		mHistoryEnum.OnCancel();
-
 	}
 	
 	void CreateWaitCmd (ICommand aDiskCmd, CmdOpType atype)
-	{
-		
+	{ 
 		if (aDiskCmd.GetType ().BaseType != typeof(DiskMacroCmd)) {
 			Debug.LogError ("not a disk command");
 			return;

@@ -120,16 +120,22 @@ public class Disk : MonoBehaviour
 		void SetReflection (int i)
 		{
 				int conjugateI = DiskUtility.GetConjugateTheta (i, mRelativeSegments [0].ThetaMod);
+				MacroDiskReflectCmd macroCMD;
 
 				ArrayList dsList = new ArrayList ();
+				ArrayList conDsList = new ArrayList ();
 				foreach (RelativeDiskSegment DS in mRelativeSegments) {
 						if (DS.theta == i) {
 								dsList.Add (DS);
 						}
 						if (DS.theta == conjugateI)
-								dsList.Add (DS);
+								conDsList.Add (DS);
 				}
-				diskController.AddCmd (new MacroDiskReflectCmd (dsList));
+
+				macroCMD = new MacroDiskReflectCmd (dsList);
+				macroCMD.AddConjugate (conDsList);
+
+				diskController.AddCmd (macroCMD);
 		}
 
 }

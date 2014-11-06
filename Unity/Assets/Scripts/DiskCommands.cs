@@ -48,49 +48,53 @@ public abstract class DiskCmd : ICommand
 		}
 }
 
-public abstract class DiskMacroCmd : ICommand {
+public abstract class DiskMacroCmd : ICommand
+{
 
-	protected ArrayList mReceivers;
-	protected List<DiskCmd> cmdGroup = new List<DiskCmd>();
+		protected ArrayList mReceivers;
+		protected List<DiskCmd> cmdGroup = new List<DiskCmd> ();
 
-	public DiskMacroCmd (ArrayList receivers)  {
-		mReceivers = receivers;
-	}
-
-	public virtual void Execute () {
-
-		if (cmdGroup != null){
-			foreach ( DiskCmd cmd in cmdGroup){
-				if(cmd.CanExecute())
-					cmd.Execute();
-			}
-		}
-	}
-
-	public bool CanExecute(){
-		bool isAllIdle = true;
-
-		foreach(object receiver in mReceivers){
-			string tempName = typeof(IDiskSegment).ToString();
-			if(receiver.GetType().GetInterface(tempName) != null){
-				IDiskSegment tempSeg = (IDiskSegment) receiver;
-				if(tempSeg.IsBusy)
-					isAllIdle = false;
-			}
+		public DiskMacroCmd (ArrayList receivers)
+		{
+				mReceivers = receivers;
 		}
 
-		return isAllIdle;
-	}
+		public virtual void Execute ()
+		{
 
-	public virtual void Undo(){
-
-		if (cmdGroup != null){
-			foreach ( DiskCmd cmd in cmdGroup){
-				if(cmd.CanExecute())
-					cmd.Undo();
-			}
+				if (cmdGroup != null) {
+						foreach (DiskCmd cmd in cmdGroup) {
+								if (cmd.CanExecute ())
+										cmd.Execute ();
+						}
+				}
 		}
-	}
+
+		public bool CanExecute ()
+		{
+				bool isAllIdle = true;
+
+				foreach (object receiver in mReceivers) {
+						string tempName = typeof(IDiskSegment).ToString ();
+						if (receiver.GetType ().GetInterface (tempName) != null) {
+								IDiskSegment tempSeg = (IDiskSegment)receiver;
+								if (tempSeg.IsBusy)
+										isAllIdle = false;
+						}
+				}
+				return isAllIdle;
+		}
+
+		public virtual void Undo ()
+		{
+
+				if (cmdGroup != null) {
+						foreach (DiskCmd cmd in cmdGroup) {
+								if (cmd.CanExecute ())
+										cmd.Undo ();
+						}
+				}
+		}
 }
 
 public class DiskRotateCmd : DiskCmd
@@ -103,7 +107,7 @@ public class DiskRotateCmd : DiskCmd
 		{
 		}
 
-	public DiskRotateCmd (IDiskSegment aDiskSeg, float angle, float rotateTime):base(aDiskSeg)
+		public DiskRotateCmd (IDiskSegment aDiskSeg, float angle, float rotateTime):base(aDiskSeg)
 		{
 				rotateAngle = angle;
 				rotateTime = rotateTime;
@@ -124,87 +128,108 @@ public class DiskRotateCmd : DiskCmd
 		}
 }
 
-public class DiskReflectCmd : DiskCmd{
+public class DiskReflectCmd : DiskCmd
+{
 	
-	float reflectTime = 2.0f;
+		float reflectTime = 2.0f;
+		int isConjugate = -1;
 
-	public DiskReflectCmd (IDiskSegment aDiskSeg) : base(aDiskSeg){
-	}
-
-	public DiskReflectCmd (IDiskSegment aDiskSeg, float arotateTime):base(aDiskSeg)
-	{
-		reflectTime = arotateTime;
+		public DiskReflectCmd (IDiskSegment aDiskSeg) : base(aDiskSeg)
+		{
 		}
 
-	public override void Execute (){
-		if (receiver != null && CanExecute ()) {
-			receiver.Reflect(0.0f,reflectTime);
+		public DiskReflectCmd (IDiskSegment aDiskSeg, float arotateTime):base(aDiskSeg)
+		{
+				reflectTime = arotateTime;
+		}
+
+		public DiskReflectCmd (IDiskSegment aDiskSeg, int isconjugate):base(aDiskSeg)
+		{
+				isConjugate = isconjugate;
+		}
+
+		public override void Execute ()
+		{
+				if (receiver != null && CanExecute ()) {
+						receiver.Reflect (0.0f, reflectTime, isConjugate);
 				}
 		}
 
-	public override void Undo (){
-		if (receiver != null && CanExecute ()) {
-			receiver.Reflect(0.0f,reflectTime);
+		public override void Undo ()
+		{
+				if (receiver != null && CanExecute ()) {
+						receiver.Reflect (0.0f, reflectTime, -1 * isConjugate);
+				}
 		}
-	}
 
 }
 
-public class MacroDiskRotateCmd : DiskMacroCmd {
+public class MacroDiskRotateCmd : DiskMacroCmd
+{
 
-	AudioClip sound;
-	Transform trans;
+		AudioClip sound;
+		Transform trans;
 
-	public MacroDiskRotateCmd (ArrayList receivers, AudioClip aSound, Transform atrans) : base(receivers) {
+		public MacroDiskRotateCmd (ArrayList receivers, AudioClip aSound, Transform atrans) : base(receivers)
+		{
 
-		sound = aSound;
-		trans = atrans;
+				sound = aSound;
+				trans = atrans;
 
-		foreach (object obj in receivers){
-			string temp = typeof(IDiskSegment).ToString();
-			if(obj.GetType().GetInterface(temp) != null){
-				cmdGroup.Add(new DiskRotateCmd((IDiskSegment)obj));
-			}
+				foreach (object obj in receivers) {
+						string temp = typeof(IDiskSegment).ToString ();
+						if (obj.GetType ().GetInterface (temp) != null) {
+								cmdGroup.Add (new DiskRotateCmd ((IDiskSegment)obj));
+						}
+				}
 		}
-	}
 
-	public override void Execute ()
-	{
-		base.Execute();
-		if (sound != null)
-			AudioSource.PlayClipAtPoint (sound, trans.position);
+		public override void Execute ()
+		{
+				base.Execute ();
+				if (sound != null)
+						AudioSource.PlayClipAtPoint (sound, trans.position);
+		}
 
-	}
-
-	public override void Undo ()
-	{
-		base.Undo();
-		if (sound != null)
-			AudioSource.PlayClipAtPoint (sound, trans.position);
-	}
+		public override void Undo ()
+		{
+				base.Undo ();
+				if (sound != null)
+						AudioSource.PlayClipAtPoint (sound, trans.position);
+		}
 
 }
 
-public class MacroDiskReflectCmd : DiskMacroCmd {
-
-	public MacroDiskReflectCmd (ArrayList receivers) : base(receivers) {	
-		foreach (object obj in receivers){
-			string temp = typeof(IDiskSegment).ToString();
-			if(obj.GetType().GetInterface(temp) != null){
-				cmdGroup.Add(new DiskReflectCmd((IDiskSegment)obj));
-			}
-		}
-	}
-
-	public override void Execute ()
-	{
-		base.Execute();
-	}
+public class MacroDiskReflectCmd : DiskMacroCmd
+{
 	
-	public override void Undo ()
-	{
-		base.Undo();
-	}
+		public MacroDiskReflectCmd (ArrayList receivers) : base(receivers)
+		{	
+				foreach (object obj in receivers) {
+						string temp = typeof(IDiskSegment).ToString ();
+						if (obj.GetType ().GetInterface (temp) != null) {
+								cmdGroup.Add (new DiskReflectCmd ((IDiskSegment)obj));
+						}
+				}
+		}
 
+		public void AddConjugate (ArrayList receivers)
+		{
+				foreach (object obj in receivers) {
+						string temp = typeof(IDiskSegment).ToString ();
+						if (obj.GetType ().GetInterface (temp) != null) {
+								cmdGroup.Add (new DiskReflectCmd ((IDiskSegment)obj, 1));
+						}
+				}
+		}
 
+		public override void Execute ()
+		{
+				base.Execute ();
+		}
+	
+		public override void Undo ()
+		{
+				base.Undo ();
+		}
 }
