@@ -6,6 +6,7 @@ using System.Reflection;
 public interface ICommand
 {
 		void Execute ();
+
 		bool CanExecute ();
 }
 
@@ -17,7 +18,9 @@ public interface IObserver
 public interface IObservable
 {
 		void Subscribe (IObserver obsvr);
+
 		void Unsubscribe (IObserver obsvr);
+
 		void Notify ();
 }
 
@@ -44,10 +47,15 @@ public abstract class DiskCmd : ICommand
 		{
 		}
 
-		public virtual void SetVerificationCondition (int condition){
-	}
+		public virtual void SetVerificationCondition (int condition)
+		{
+				Debug.Log ("diskcmd base SetVerify() called");
+		}
 
-	public virtual bool Verify () {
+		public virtual bool Verify ()
+		{
+				Debug.Log ("diskcmd base Verify() called");
+				return false;
 		}
 }
 
@@ -96,12 +104,34 @@ public abstract class DiskMacroCmd : ICommand
 						}
 				}
 		}
+
+		public virtual void SetVerificationCondition (int cond)
+		{
+				foreach (DiskCmd cmd in cmdGroup) {
+						cmd.SetVerificationCondition (cond);
+				}
+		}
+
+		public virtual bool Verify ()
+		{
+				bool verified = true;
+
+				foreach (DiskCmd cmd in cmdGroup) {
+						if (!cmd.Verify ()) {
+								Debug.Log ("fail to verify");
+								verified = false;
+						}
+				}
+
+				return verified;
+		}
 }
 
 public class DiskRotateCmd : DiskCmd
 {
 		float rotateAngle = 45.0f;
 		float rotateTime = 1.3f;
+		int securityR = -1;
 
 		public DiskRotateCmd (IDiskSegment aDiskSeg) : base(aDiskSeg)
 		{
@@ -126,6 +156,17 @@ public class DiskRotateCmd : DiskCmd
 						receiver.Rotate (-1.0f * rotateAngle, rotateTime);
 				}
 		}
+
+		public override void SetVerificationCondition (int condition)
+		{
+				Debug.Log ("diskcmd high SetVerify() called");
+				securityR = condition;
+		}
+
+		public override bool Verify ()
+		{
+				return (securityR == receiver.r);
+		}
 }
 
 public class DiskReflectCmd : DiskCmd
@@ -133,6 +174,7 @@ public class DiskReflectCmd : DiskCmd
 	
 		float reflectTime = 2.0f;
 		int isConjugate = -1;
+		int securityTheta = -1; //suppose securityTheta already considered conjugate theta
 
 		public DiskReflectCmd (IDiskSegment aDiskSeg) : base(aDiskSeg)
 		{
@@ -160,6 +202,20 @@ public class DiskReflectCmd : DiskCmd
 				if (receiver != null && CanExecute ()) {
 						receiver.Reflect (0.0f, reflectTime, -1 * isConjugate);
 				}
+		}
+
+		public override void SetVerificationCondition (int condition)
+		{
+				Debug.Log ("diskcmd high SetVerify() called");
+				securityTheta = condition;
+		}
+
+		public override bool Verify ()
+		{
+				if (securityTheta != receiver.theta)
+						Debug.LogError ("Verification failed");
+
+				return (securityTheta == receiver.theta);
 		}
 
 }
@@ -218,7 +274,20 @@ public class MacroDiskReflectCmd : DiskMacroCmd
 				foreach (object obj in receivers) {
 						string temp = typeof(IDiskSegment).ToString ();
 						if (obj.GetType ().GetInterface (temp) != null) {
-								cmdGroup.Add (new DiskReflectCmd ((IDiskSegment)obj, 1));
+								DiskReflectCmd reflectCmd = new DiskReflectCmd ((IDiskSegment)obj, 1);
+								cmdGroup.Add (reflectCmd);
+						}
+				}
+		}
+
+		public void AddConjugate (ArrayList receivers, int conjugateIndex)
+		{
+				foreach (object obj in receivers) {
+						string temp = typeof(IDiskSegment).ToString ();
+						if (obj.GetType ().GetInterface (temp) != null) {
+								DiskReflectCmd reflectCmd = new DiskReflectCmd ((IDiskSegment)obj, 1);
+								reflectCmd.SetVerificationCondition (conjugateIndex);
+								cmdGroup.Add (reflectCmd);
 						}
 				}
 		}

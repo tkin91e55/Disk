@@ -118,12 +118,22 @@ public class Disk : MonoBehaviour
 		void SetRotation (int i)
 		{
 				ArrayList dsList = new ArrayList ();
+				MacroDiskRotateCmd macroCMD;
 				foreach (RelativeDiskSegment DS in mRelativeSegments) {
 						if (DS.r == i) {
-								dsList.Add (DS);
+								if (!DS.IsBusy)
+										dsList.Add (DS);
+								else {
+										Debug.LogError ("the seg is busy, dangerous to add cmd, and cancelled");
+										return;
+								}
 						}
 				}
-				diskController.AddCmd (new MacroDiskRotateCmd (dsList, rotateSound, transform));
+
+				macroCMD = new MacroDiskRotateCmd (dsList, rotateSound, transform);
+				//macroCMD.SetVerificationCondition (i);
+				//macroCMD.Verify ();
+				diskController.AddCmd (macroCMD);
 		}
 
 		void SetReflection (int i)
@@ -135,14 +145,27 @@ public class Disk : MonoBehaviour
 				ArrayList conDsList = new ArrayList ();
 				foreach (RelativeDiskSegment DS in mRelativeSegments) {
 						if (DS.theta == i) {
-								dsList.Add (DS);
+								if (!DS.IsBusy)
+										dsList.Add (DS);
+								else {
+										Debug.LogError ("the seg is busy, dangerous to add cmd, and cancelled");
+										return;
+								}
 						}
 						if (DS.theta == conjugateI)
+						if (!DS.IsBusy)
 								conDsList.Add (DS);
+						else {
+								Debug.LogError ("the seg is busy, dangerous to add cmd, and cancelled");
+								return;
+						}
 				}
 
 				macroCMD = new MacroDiskReflectCmd (dsList);
-				macroCMD.AddConjugate (conDsList);
+				//macroCMD.SetVerificationCondition (i);
+				//macroCMD.Verify ();
+				//macroCMD.AddConjugate (conDsList, conjugateI);
+		macroCMD.AddConjugate (conDsList);
 				diskController.AddCmd (macroCMD);
 		}
 

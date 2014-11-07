@@ -122,7 +122,6 @@ public class AbsDiskSegment: MonoBehaviour, IDiskSegment
 
 public class RelativeDiskSegment : IDiskSegment
 {
-
 		AbsDiskSegment mSegment;
 		int relativeR;
 		int relativeTheta;
