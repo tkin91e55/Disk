@@ -32,13 +32,22 @@ public class Disk : MonoBehaviour
 
 		void OnGUI ()
 		{
-				if (GUI.Button (new Rect (0, 0, Screen.width / 8, Screen.height / 15), "Rotate inner")) {
+				if (GUI.Button (new Rect (0, 0, Screen.width / 8, Screen.height / 15), "Rotate inner aniti-clockwise")) {
+						//RotateInnerSeg ();
+				}
+				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate Middle aniti-clockwise")) {
+						//RotateMiddleSeg ();
+				}
+				if (GUI.Button (new Rect (0, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer aniti-clockwise")) {
+						//RotateOuterSeg ();
+				}
+				if (GUI.Button (new Rect (Screen.width / 8, 0, Screen.width / 8, Screen.height / 15), "Rotate inner clockwise")) {
 						RotateInnerSeg ();
 				}
-				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate Middle")) {
+				if (GUI.Button (new Rect (Screen.width / 8, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate Middle clockwise")) {
 						RotateMiddleSeg ();
 				}
-				if (GUI.Button (new Rect (0, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer")) {
+				if (GUI.Button (new Rect (Screen.width / 8, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer clockwise")) {
 						RotateOuterSeg ();
 				}
 				if (GUI.Button (new Rect (0, 3 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Undo")) {
@@ -134,7 +143,6 @@ public class Disk : MonoBehaviour
 
 				macroCMD = new MacroDiskReflectCmd (dsList);
 				macroCMD.AddConjugate (conDsList);
-
 				diskController.AddCmd (macroCMD);
 		}
 

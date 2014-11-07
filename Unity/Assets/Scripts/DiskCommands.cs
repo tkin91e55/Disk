@@ -6,7 +6,6 @@ using System.Reflection;
 public interface ICommand
 {
 		void Execute ();
-
 		bool CanExecute ();
 }
 
@@ -18,9 +17,7 @@ public interface IObserver
 public interface IObservable
 {
 		void Subscribe (IObserver obsvr);
-
 		void Unsubscribe (IObserver obsvr);
-
 		void Notify ();
 }
 
@@ -46,11 +43,16 @@ public abstract class DiskCmd : ICommand
 		public virtual void Undo ()
 		{
 		}
+
+		public virtual void SetVerificationCondition (int condition){
+	}
+
+	public virtual bool Verify () {
+		}
 }
 
 public abstract class DiskMacroCmd : ICommand
 {
-
 		protected ArrayList mReceivers;
 		protected List<DiskCmd> cmdGroup = new List<DiskCmd> ();
 
@@ -87,7 +89,6 @@ public abstract class DiskMacroCmd : ICommand
 
 		public virtual void Undo ()
 		{
-
 				if (cmdGroup != null) {
 						foreach (DiskCmd cmd in cmdGroup) {
 								if (cmd.CanExecute ())
@@ -99,7 +100,6 @@ public abstract class DiskMacroCmd : ICommand
 
 public class DiskRotateCmd : DiskCmd
 {
-
 		float rotateAngle = 45.0f;
 		float rotateTime = 1.3f;
 

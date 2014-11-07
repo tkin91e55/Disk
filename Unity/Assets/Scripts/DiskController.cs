@@ -39,7 +39,7 @@ public class DiskController
 	DiskHistoryEnum mHistoryEnum;
 	Queue<WaitCommand> cmdWait = new Queue<WaitCommand> ();
 	ICommand curCmd;
-	int maxCmdWait = 30;
+	int maxCmdWait = 5;
 	
 	/// <summary>
 	/// must be hooked outside since Diskcontroller is not a monobehavior
