@@ -316,6 +316,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1675249465}
   - 114: {fileID: 1675249466}
+  - 81: {fileID: 1675249467}
   m_Layer: 0
   m_Name: TheDiskPuzzle
   m_TagString: Untagged
@@ -347,6 +348,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   theDiskPrefab: {fileID: 100048, guid: 10a17376a2c457146848d34e0f0f11da, type: 2}
   rotateSound: {fileID: 8300000, guid: 4395ef4d0185cd74f8cfaf7205e07c2f, type: 3}
+--- !u!81 &1675249467
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1675249464}
+  m_Enabled: 1
 --- !u!1 &1793491535
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +380,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1793491535}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!124 &1793491537
 Behaviour:
   m_ObjectHideFlags: 0
