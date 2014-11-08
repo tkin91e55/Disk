@@ -33,22 +33,22 @@ public class Disk : MonoBehaviour
 		void OnGUI ()
 		{
 				if (GUI.Button (new Rect (0, 0, Screen.width / 8, Screen.height / 15), "Rotate inner aniti-clockwise")) {
-						//RotateInnerSeg ();
+						SetAntiRot (1);
 				}
 				if (GUI.Button (new Rect (0, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate Middle aniti-clockwise")) {
-						//RotateMiddleSeg ();
+						SetAntiRot (2);
 				}
 				if (GUI.Button (new Rect (0, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer aniti-clockwise")) {
-						//RotateOuterSeg ();
+						SetAntiRot (3);
 				}
 				if (GUI.Button (new Rect (Screen.width / 8, 0, Screen.width / 8, Screen.height / 15), "Rotate inner clockwise")) {
-						RotateInnerSeg ();
+						SetClockwiseRotation (1);
 				}
 				if (GUI.Button (new Rect (Screen.width / 8, Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate Middle clockwise")) {
-						RotateMiddleSeg ();
+						SetClockwiseRotation (2);
 				}
 				if (GUI.Button (new Rect (Screen.width / 8, 2 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Rotate outer clockwise")) {
-						RotateOuterSeg ();
+						SetClockwiseRotation (3);
 				}
 				if (GUI.Button (new Rect (0, 3 * Screen.height / 15, Screen.width / 8, Screen.height / 15), "Undo")) {
 						Undo ();
@@ -84,21 +84,6 @@ public class Disk : MonoBehaviour
 						SetReflection (8);
 				}
 		}
-	
-		void RotateInnerSeg ()
-		{
-				SetRotation (1);
-		}
-
-		void RotateMiddleSeg ()
-		{
-				SetRotation (2);
-		}
-
-		void RotateOuterSeg ()
-		{
-				SetRotation (3);
-		}
 
 		void Undo ()
 		{
@@ -115,25 +100,34 @@ public class Disk : MonoBehaviour
 		/// This is very private function
 		/// </summary>
 		/// <param name="i">The index.</param>
-		void SetRotation (int i)
+		void SetClockwiseRotation (int i)
 		{
 				ArrayList dsList = new ArrayList ();
-				MacroDiskRotateCmd macroCMD;
 				foreach (RelativeDiskSegment DS in mRelativeSegments) {
 						if (DS.r == i) {
 								if (!DS.IsBusy)
 										dsList.Add (DS);
-								else {
-										Debug.LogError ("the seg is busy, dangerous to add cmd, and cancelled");
+								else 
 										return;
-								}
 						}
 				}
-
-				macroCMD = new MacroDiskRotateCmd (dsList, rotateSound, transform);
 				//macroCMD.SetVerificationCondition (i);
 				//macroCMD.Verify ();
-				diskController.AddCmd (macroCMD);
+				diskController.AddCmd (new MacroDiskRotateCmd (dsList, rotateSound, transform));
+		}
+
+		void SetAntiRot (int i)
+		{
+				ArrayList dsList = new ArrayList ();
+				foreach (RelativeDiskSegment DS in mRelativeSegments) {
+						if (DS.r == i) {
+								if (!DS.IsBusy)
+										dsList.Add (DS);
+								else 
+										return;
+						}
+				}
+				diskController.AddCmd (new MacroDiskRotateCmd (dsList, rotateSound, transform, -45.0f));
 		}
 
 		void SetReflection (int i)
@@ -147,25 +141,21 @@ public class Disk : MonoBehaviour
 						if (DS.theta == i) {
 								if (!DS.IsBusy)
 										dsList.Add (DS);
-								else {
-										Debug.LogError ("the seg is busy, dangerous to add cmd, and cancelled");
-										return;
-								}
+								else 										
+										return;								
 						}
 						if (DS.theta == conjugateI)
 						if (!DS.IsBusy)
 								conDsList.Add (DS);
-						else {
-								Debug.LogError ("the seg is busy, dangerous to add cmd, and cancelled");
+						else 
 								return;
-						}
 				}
 
 				macroCMD = new MacroDiskReflectCmd (dsList);
 				//macroCMD.SetVerificationCondition (i);
 				//macroCMD.Verify ();
 				//macroCMD.AddConjugate (conDsList, conjugateI);
-		macroCMD.AddConjugate (conDsList);
+				macroCMD.AddConjugate (conDsList);
 				diskController.AddCmd (macroCMD);
 		}
 

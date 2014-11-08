@@ -228,10 +228,8 @@ public class MacroDiskRotateCmd : DiskMacroCmd
 
 		public MacroDiskRotateCmd (ArrayList receivers, AudioClip aSound, Transform atrans) : base(receivers)
 		{
-
 				sound = aSound;
 				trans = atrans;
-
 				foreach (object obj in receivers) {
 						string temp = typeof(IDiskSegment).ToString ();
 						if (obj.GetType ().GetInterface (temp) != null) {
@@ -239,6 +237,20 @@ public class MacroDiskRotateCmd : DiskMacroCmd
 						}
 				}
 		}
+
+	public MacroDiskRotateCmd (ArrayList receivers, AudioClip aSound, Transform atrans, float rotateAngle) : base(receivers)
+	{
+		
+		sound = aSound;
+		trans = atrans;
+		
+		foreach (object obj in receivers) {
+			string temp = typeof(IDiskSegment).ToString ();
+			if (obj.GetType ().GetInterface (temp) != null) {
+				cmdGroup.Add (new DiskRotateCmd ((IDiskSegment)obj,rotateAngle,1.3f));
+			}
+		}
+	}
 
 		public override void Execute ()
 		{
