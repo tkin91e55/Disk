@@ -151,7 +151,7 @@ public class Disk : MonoBehaviour
 								return;
 				}
 
-				macroCMD = new MacroDiskReflectCmd (dsList);
+		macroCMD = new MacroDiskReflectCmd (dsList,rotateSound, transform);
 				//macroCMD.SetVerificationCondition (i);
 				//macroCMD.Verify ();
 				//macroCMD.AddConjugate (conDsList, conjugateI);

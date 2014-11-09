@@ -172,7 +172,7 @@ public class DiskRotateCmd : DiskCmd
 public class DiskReflectCmd : DiskCmd
 {
 	
-		float reflectTime = 2.0f;
+		float reflectTime = 1.3f;
 		int isConjugate = -1;
 		int securityTheta = -1; //suppose securityTheta already considered conjugate theta
 
@@ -270,9 +270,14 @@ public class MacroDiskRotateCmd : DiskMacroCmd
 
 public class MacroDiskReflectCmd : DiskMacroCmd
 {
+
+	AudioClip sound;
+	Transform trans;
 	
-		public MacroDiskReflectCmd (ArrayList receivers) : base(receivers)
+	public MacroDiskReflectCmd (ArrayList receivers, AudioClip aSound, Transform atrans) : base(receivers)
 		{	
+		sound = aSound;
+		trans = atrans;
 				foreach (object obj in receivers) {
 						string temp = typeof(IDiskSegment).ToString ();
 						if (obj.GetType ().GetInterface (temp) != null) {
@@ -307,10 +312,14 @@ public class MacroDiskReflectCmd : DiskMacroCmd
 		public override void Execute ()
 		{
 				base.Execute ();
+		if (sound != null)
+			AudioSource.PlayClipAtPoint (sound, trans.position);
 		}
 	
 		public override void Undo ()
 		{
 				base.Undo ();
+		if (sound != null)
+			AudioSource.PlayClipAtPoint (sound, trans.position);
 		}
 }
