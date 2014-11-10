@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+<script>
+function submitFunction(){
+	var fname=document.getElementById('fname').value,
+		lname=document.getElementById('lname').value,
+		xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function(){
+		if(xmlhttp.readyState==4 && xmlhttp.status==200){
+			var json = xmlhttp.responseText,
+				obj = JSON.parse(json);
+			document.write(obj.fname);
+			document.write("<br>");
+			document.write(obj.lname);
+		}
+	}
+	xmlhttp.open("GET","ajax.php?fname="+fname+"&lname="+lname,true);
+	xmlhttp.send();
+}
+</script>
+</head>
+<body>
+  First name: <input type="text" id="fname"><br>
+  Last name: <input type="text" id="lname"><br>
+ <button id="submit" onclick="submitFunction()">Submit</button>
+</body>
+</html>
