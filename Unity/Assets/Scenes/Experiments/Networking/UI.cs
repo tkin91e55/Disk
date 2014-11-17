@@ -18,6 +18,10 @@ public class UI : MonoBehaviour {
 		if(GUILayout.Button("Update") ){
 			StartCoroutine("ScoreUpdate");
 		}
+
+		if(GUILayout.Button("Download")){
+			StartCoroutine("ScoreDownload");
+		}
 	}
 
 	public IEnumerator ScoreUpdate() {

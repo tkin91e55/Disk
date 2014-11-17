@@ -15,7 +15,7 @@ mysql_connect($dbhost,$dbuser,$password) or die(mysql_error());
 //資料庫連接
 mysql_select_db($dbname) or die(mysql_error());
 
-if( $_POST['name']) != NULL && $_POST['score'] != NULL) {
+if( $_POST['name'] != NULL && $_POST['score'] != NULL) {
 
 	//echo 可以在Unity 中的 Console 面板顯現
 	echo 'Ranking Update';
