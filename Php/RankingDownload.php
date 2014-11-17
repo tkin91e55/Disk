@@ -24,8 +24,8 @@ if( $_POST['download'] != NULL ) {
 	for($cnt = 0; $cnt < $rows; $cnt++) {
 
 		$row = mysql_fetch_array($result);
-		echo "Name = " . $row[1];
-		echo "Score = " . $row[2];
+		echo "\nName = " . $row[1];
+		echo " Score = " . $row[2];
 	}
 }
 
