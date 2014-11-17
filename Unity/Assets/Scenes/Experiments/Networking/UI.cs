@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class UI : MonoBehaviour {
 
-	public string path = "http://localhost/Unity/RandingUpdate.php";
+	public string path = "http://localhost/Unity/RankingUpdate.php";
 	public string downloadPath = "http://localhost/Unity/RankingDownload.php";
 
 	public string name;

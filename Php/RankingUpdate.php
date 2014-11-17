@@ -7,9 +7,11 @@ $dbname = 'highscore';
 $dbtablename = 'ranking';
 //資料庫使用者名稱
 $dbuser = 'root';
+//database password
+$password = "a97077";
 
 //MySQL 連接
-mysql_connect( $dbhost, $dbuser) or die(mysql_error());
+mysql_connect($dbhost,$dbuser,$password) or die(mysql_error());
 //資料庫連接
 mysql_select_db($dbname) or die(mysql_error());
 
@@ -24,4 +26,5 @@ if( $_POST['name']) != NULL && $_POST['score'] != NULL) {
 	$query = "insert into $dbtablename(id, name, score) values (null, '$name', '$score')";
 	$result = mysql_query($query) or die(mysql_error());
 }
+
 ?>
